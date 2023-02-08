@@ -101,7 +101,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
           dat_boot <- dat_boot_temp |> group_by(ID, time) |>
             mutate(Count = row_number()) |>
             ungroup() |>
-            mutate(ID = ifelse(Count > 1, paste0(ID, Count), ID)) |>
+            mutate(ID = ifelse(Count > 1, paste0(ID, "BOOT", Count), ID)) |>
             select(-Count)
 
 
