@@ -29,6 +29,7 @@
 #' \item{beta_bootse}{Bootstrap standard error for beta}
 #' }
 #' @import dplyr tidyr ggplot2
+#' @export
 
 SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
                        gamma = 0, max_epoches = 500, conv_threshold = 0.01, boot = NULL){
