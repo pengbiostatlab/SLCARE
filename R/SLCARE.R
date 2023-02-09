@@ -1,6 +1,35 @@
-#   Install Package:           'Cmd + Shift + B'
-#   Check Package:             'Cmd + Shift + E'
-#   Test Package:              'Cmd + Shift + T'
+#' @title Semiparametric Latent Class Analysis for Recurrent Event
+#' @description Conduct Semiparametric Latent Class Analysis for Recurrent Event.
+#' @param alpha initial values for alpha for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
+#' @param beta initial value for beta for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
+#' @param dat a data frame contating the data in the model
+#' @param K number of latent classes
+#' @param gamma individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)
+#' @param max_epoches maximum iteration epoches for estimation procedure
+#' @param conv_threshold converge threshold for estimation procedure
+#' @param boot bootstrap sample size
+#' @return A list containing the following components:
+#' \describe{
+#' \item{alpha}{Point estimates for alpha}
+#' \item{beta}{Point estimates for beta}
+#' \item{convergeloss}{Converge loss in estimation procedure}
+#' \item{PosteriorPrediction}{Posterior prediction for observed events for subjects of interest}
+#' \item{EstimatedTau}{Posterior probability of latent class membership}
+#' \item{ModelChecking}{Plot for model checking}
+#' \item{Estimated_mu0t}{Plot for estimated mu0(t)}
+#' \item{est_mu0()}{A function allows to calculate mu0(t) for specific time points}
+#' \item{Estimated_Mean_Function}{Plot of estimated mean functions}
+#' \item{RelativeEntropy}{Relative entropy}
+#' \item{InitialAlpha}{Initial alpha for estimation procedure}
+#' \item{InitialBeta}{Initial beta for estimation procedure}
+#' }
+#' If argument 'boot' is non-NULL, then SLCARE returns two additional components:
+#' \describe{
+#' \item{alpha_bootse}{Bootstrap standard error for alpha}
+#' \item{beta_bootse}{Bootstrap standard error for beta}
+#' }
+#' @import dplyr tidyr ggplot2
+
 SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
                        gamma = 0, max_epoches = 500, conv_threshold = 0.01, boot = NULL){
 
@@ -44,7 +73,6 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     beta_new <- update_beta(alpha, beta, d, Z, mu_censor, gamma)
 
     diff_alpha <- (alpha_new - alpha)/ alpha
-    #diff_alpha[is.nan(diff_alpha)] <- 0
     diff_beta <- (beta_new - beta)/ beta
 
 
