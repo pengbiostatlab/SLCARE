@@ -1,4 +1,3 @@
-#' @importFrom nnet multinom
 update_alpha <- function(alpha, beta, d, Z, mu_censor, gamma = 0){
   #number of latent class
   K <- nrow(beta)

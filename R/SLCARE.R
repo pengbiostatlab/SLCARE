@@ -28,7 +28,7 @@
 #' \item{alpha_bootse}{Bootstrap standard error for alpha}
 #' \item{beta_bootse}{Bootstrap standard error for beta}
 #' }
-#' @import dplyr tidyr ggplot2
+#' @import dplyr tidyr ggplot2 reReg nnet
 #' @export
 
 SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,

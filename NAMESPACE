@@ -3,6 +3,6 @@
 export(SLCARE)
 import(dplyr)
 import(ggplot2)
+import(nnet)
+import(reReg)
 import(tidyr)
-importFrom(nnet,multinom)
-importFrom(reReg,reReg)

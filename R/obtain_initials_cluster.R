@@ -1,5 +1,3 @@
-#' @importFrom nnet multinom
-#' @importFrom reReg reReg
 get_initial <- function(dat, K){
 
   dat_list <- PreprocessData(dat)
