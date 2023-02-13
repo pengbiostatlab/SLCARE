@@ -1,3 +1,14 @@
+#' @title Obtain initial values for estimation procedure.
+#' @description Obtain initial value for alpha by: 1. assign class membership to all subjects with Kmeans, then fit the multinomial regression to obtain alpha.
+#' Obtain initial value for beta by fitting the ,ultiplicative intensity model studies by Wang et al. (2001) using the reReg() function, stratified by the latent class membership assigned by Kmeans.
+#' @param dat a data frame containing the data in the model
+#' @param K number of latent classes
+#' @return A list containing the following components:
+#' \tabular{ll}{
+#'    \code{ini_alpha} \tab A matrix of initial alpha \cr
+#'    \tab \cr
+#'    \code{ini_beta} \tab A matrix of initial beta \cr
+#' }
 get_initial <- function(dat, K){
 
   dat_list <- PreprocessData(dat)

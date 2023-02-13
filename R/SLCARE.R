@@ -2,9 +2,9 @@
 #' @description Conduct Semiparametric Latent Class Analysis for Recurrent Event.
 #' @param alpha initial values for alpha for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
 #' @param beta initial value for beta for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
-#' @param dat a data frame contating the data in the model
+#' @param dat a data frame containing the data in the model
 #' @param K number of latent classes
-#' @param gamma individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)
+#' @param gamma individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k)
 #' @param max_epoches maximum iteration epoches for estimation procedure
 #' @param conv_threshold converge threshold for estimation procedure
 #' @param boot bootstrap sample size

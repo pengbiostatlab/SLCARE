@@ -20,11 +20,11 @@ SLCARE(
 
 \item{beta}{initial value for beta for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.}
 
-\item{dat}{a data frame contating the data in the model}
+\item{dat}{a data frame containing the data in the model}
 
 \item{K}{number of latent classes}
 
-\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)}
+\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k)}
 
 \item{max_epoches}{maximum iteration epoches for estimation procedure}
 
