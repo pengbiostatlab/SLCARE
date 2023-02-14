@@ -1,14 +1,18 @@
 Package: SLCARE
 Type: Package
 Title: Semiparametric Latent Class Analysis for Recurrent Event
-Version: 0.1.0
+Version: 1.0.0
 Author: Qi Yu
 Maintainer: Qi Yu <qi.yu2@emory.edu>
 Description: SLCARE
-    Semiparametric Latent Class Analysis for Recurrent Event
+    An R package for Semiparametric Latent Class Analysis for Recurrent Event. A list of references for this package:
+    Chiou et al. (2023) <doi: 10.18637/jss.v105.i05>
+    Zhao et al. (2022) <doi: 10.1111/rssb.12499>
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/qyxxx/SLCARE
+BugReports: https://github.com/qyxxx/SLCARE/issues
 Imports:
     dplyr,
     tidyr,
