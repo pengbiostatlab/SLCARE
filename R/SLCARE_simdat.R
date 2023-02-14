@@ -14,4 +14,7 @@
 #' @name SLCARE_simdat
 #' @rdname SLCARE_simdat
 #' @format A data frame with 478 rows and 5 variables.
-NULL
+#' @importFrom stats sd quantile relevel as.formula glm poisson
+#' @importFrom utils capture.output
+
+globalVariables(c("event", "ID", "time", "Count", "observed", "predicted", "mu0t", "par", "mu0_t_dat_par"))
