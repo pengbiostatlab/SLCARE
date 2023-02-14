@@ -15,7 +15,7 @@ p_D(d, beta, Z, mu_censor, gamma = 0)
 
 \item{mu_censor}{a vector of estimated mu(C), where C is a vector of censoring time}
 
-\item{individual}{frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)}
+\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)}
 }
 \value{
 a vector of estimated P(Di_di | xi = k, Zi, Ci)

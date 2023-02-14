@@ -1,10 +1,10 @@
 #' @title Estimate P(D|xi, Z, C)
 #' @description Estimate P(Di = di | xi = k, Zi, Ci)
 #' @param d a vector of observed recurrent events for subjects of interest
-#' @param  beta class specific parameters for recurrent model
+#' @param beta class specific parameters for recurrent model
 #' @param Z a vector of time-independent corvariates
 #' @param mu_censor a vector of estimated mu(C), where C is a vector of censoring time
-#' @param individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)
+#' @param gamma individual frailty. 0 represents the frailty equals 1 and k reprsents the frailty follows gamma(k,k)
 #' @return  a vector of estimated P(Di_di | xi = k, Zi, Ci)
 p_D <- function(d, beta, Z, mu_censor, gamma = 0){
   #n <- nrow(Z)
