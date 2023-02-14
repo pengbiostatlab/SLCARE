@@ -1,3 +1,12 @@
+#' @title Estimation algorithm - updating alpha
+#' @description Updating alpha in estimation procedure. Updating alpha by fitting a weighted multinomial regression.
+#' @param alpha a matrix of alpha before updating - regression coefficient for multinomial logistic regression model
+#' @param beta a matrix of beta before updating - class specific parameters for recurrent model
+#' @param d a vector of observed recurrent events for subjects of interest
+#' @param Z a vector of time-independent corvariates
+#' @param mu_censor a vector of estimated mu(C), where C is a vector of censoring time
+#' @param gamma individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k)
+#' @return a matrix of updated alpha - regression coefficient for multinomial logistic regression model
 update_alpha <- function(alpha, beta, d, Z, mu_censor, gamma = 0){
   #number of latent class
   K <- nrow(beta)
