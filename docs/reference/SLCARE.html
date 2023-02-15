@@ -157,7 +157,8 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">SLCARE_simdat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Example 1: number of latent classes k = 2, default settings, generate initial values in estimation procedure with Kmeans</span></span></span>
+<span class="r-in"><span><span class="co"># Example 1: number of latent classes k = 2,</span></span></span>
+<span class="r-in"><span><span class="co"># By default, generate initial values in estimation procedure with K-means</span></span></span>
 <span class="r-in"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu">SLCARE</span><span class="op">(</span>dat <span class="op">=</span> <span class="va">SLCARE_simdat</span>, K<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># contents of output</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></span>
@@ -169,13 +170,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "InitialAlpha"            "InitialBeta"            </span>
 <span class="r-in"><span><span class="co"># point estimates</span></span></span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">alpha</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               x1        x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class1 0.0000000  0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class2 0.2204357 -3.736727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                x1       x2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class1  0.0000000 0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class2 -0.2204357 3.736727</span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">beta</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        (Intercept)        x1         x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class1    2.496767 -0.110277  0.1679575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class2    3.175178 -0.141808 -5.5362092</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class1    3.175178 -0.141808 -5.5362092</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class2    2.496767 -0.110277  0.1679575</span>
 <span class="r-in"><span><span class="co"># converge loss in estimation procedure</span></span></span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">convergeloss</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008254239</span>
@@ -234,57 +235,57 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50   G080          11.6309883</span>
 <span class="r-in"><span><span class="co"># Posterior probability of latent class membership</span></span></span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">EstimatedTau</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        ID      class1       class2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  UOM054 0.999999641 3.588689e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   EM015 0.999999270 7.296420e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    G078 0.998646435 1.353565e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  UOM048 1.000000000 3.410495e-13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    G050 0.998840723 1.159277e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    G058 0.437239412 5.627606e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   EM037 0.559913306 4.400867e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    G052 0.009863978 9.901360e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  UOM043 0.325872654 6.741273e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   G064 1.000000000 9.013150e-25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  EM036 0.001336693 9.986633e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 UOM003 0.188217597 8.117824e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  EM001 0.948642553 5.135745e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 UOM020 1.000000000 3.327574e-10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   G027 0.999976786 2.321358e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 UOM023 0.999999995 5.446992e-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 UOM051 0.776284012 2.237160e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   G036 0.714972850 2.850272e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19   G051 1.000000000 4.054462e-14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 UOM055 0.910532662 8.946734e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21   G070 0.681826745 3.181733e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 UOM009 0.547115965 4.528840e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23   G047 0.359803746 6.401963e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   G007 0.983611339 1.638866e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25   G009 0.554658656 4.453413e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   G004 0.055220951 9.447790e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27 UOM040 0.319408186 6.805918e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  EM013 0.546855255 4.531447e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29   G066 0.012265950 9.877341e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30   G021 0.969492976 3.050702e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31   G061 0.290533287 7.094667e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32 UOM031 0.618818075 3.811819e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  EM044 0.999824606 1.753943e-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34   G015 0.999977573 2.242684e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  EM018 0.999976933 2.306671e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36 UOM050 1.000000000 3.290086e-11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37   G005 0.433093210 5.669068e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38   G003 0.702729729 2.972703e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39   G018 0.545514459 4.544855e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40   G057 0.999999892 1.077511e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41   G072 0.612486202 3.875138e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42 UOM005 1.000000000 5.818215e-13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43   G019 0.447460375 5.525396e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44 UOM025 0.999751903 2.480969e-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45   G065 0.309831911 6.901681e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  EM014 0.997311331 2.688669e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47   G079 0.748248625 2.517514e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48 UOM007 0.534013300 4.659867e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49   G048 0.221051811 7.789482e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50   G080 0.999999626 3.742849e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        ID       class1      class2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  UOM054 3.588689e-07 0.999999641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   EM015 7.296420e-07 0.999999270</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    G078 1.353565e-03 0.998646435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  UOM048 3.410495e-13 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    G050 1.159277e-03 0.998840723</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    G058 5.627606e-01 0.437239412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   EM037 4.400867e-01 0.559913306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    G052 9.901360e-01 0.009863978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  UOM043 6.741273e-01 0.325872654</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   G064 9.013150e-25 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  EM036 9.986633e-01 0.001336693</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 UOM003 8.117824e-01 0.188217597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  EM001 5.135745e-02 0.948642553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 UOM020 3.327574e-10 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   G027 2.321358e-05 0.999976786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 UOM023 5.446992e-09 0.999999995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 UOM051 2.237160e-01 0.776284012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   G036 2.850272e-01 0.714972850</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   G051 4.054462e-14 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 UOM055 8.946734e-02 0.910532662</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   G070 3.181733e-01 0.681826745</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 UOM009 4.528840e-01 0.547115965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23   G047 6.401963e-01 0.359803746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   G007 1.638866e-02 0.983611339</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   G009 4.453413e-01 0.554658656</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26   G004 9.447790e-01 0.055220951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 UOM040 6.805918e-01 0.319408186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  EM013 4.531447e-01 0.546855255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   G066 9.877341e-01 0.012265950</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   G021 3.050702e-02 0.969492976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31   G061 7.094667e-01 0.290533287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 UOM031 3.811819e-01 0.618818075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33  EM044 1.753943e-04 0.999824606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34   G015 2.242684e-05 0.999977573</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35  EM018 2.306671e-05 0.999976933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 UOM050 3.290086e-11 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37   G005 5.669068e-01 0.433093210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38   G003 2.972703e-01 0.702729729</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39   G018 4.544855e-01 0.545514459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40   G057 1.077511e-07 0.999999892</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41   G072 3.875138e-01 0.612486202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 UOM005 5.818215e-13 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43   G019 5.525396e-01 0.447460375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 UOM025 2.480969e-04 0.999751903</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45   G065 6.901681e-01 0.309831911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  EM014 2.688669e-03 0.997311331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47   G079 2.517514e-01 0.748248625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 UOM007 4.659867e-01 0.534013300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49   G048 7.789482e-01 0.221051811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50   G080 3.742849e-07 0.999999626</span>
 <span class="r-in"><span><span class="co"># model checking plot</span></span></span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">ModelChecking</span></span></span>
 <span class="r-plt img"><img src="SLCARE-1.png" alt="" width="700" height="433"></span>
@@ -305,13 +306,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5468913</span>
 <span class="r-in"><span><span class="co"># Initial values for estimation procedure</span></span></span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">InitialAlpha</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                x1        x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class1  0.0000000  0.000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class2 -0.4984874 -2.447667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               x1       x2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class1 0.0000000 0.000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class2 0.4984874 2.447667</span>
 <span class="r-in"><span><span class="va">model1</span><span class="op">$</span><span class="va">InitialBeta</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        intercept         x1          x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class1  2.563970 -0.2441563  0.06202144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class2  2.125367  0.0107472 -1.09947581</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class1  2.125367  0.0107472 -1.09947581</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class2  2.563970 -0.2441563  0.06202144</span>
 <span class="r-in"><span><span class="co"># You can select initial value in estimation procedure manually</span></span></span>
 <span class="r-in"><span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="op">-</span><span class="fl">4</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -325,7 +326,7 @@
 <span class="r-in"><span><span class="co"># Bootstrap sample size = 100 (time consuming procedure)</span></span></span>
 <span class="r-in"><span><span class="co"># model4 &lt;- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)</span></span></span>
 <span class="r-in"><span><span class="co"># SLCARE() with "boot" argument will return to two additional contents:</span></span></span>
-<span class="r-in"><span><span class="co"># "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta</span></span></span>
+<span class="r-in"><span><span class="co"># "alpha_bootse", "beta_bootse" which are Bootsrap standard errors.</span></span></span>
 <span class="r-in"><span><span class="co"># model4$alpha_bootse</span></span></span>
 <span class="r-in"><span><span class="co"># model4$beta_bootse</span></span></span>
 </code></pre></div>
@@ -335,7 +336,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Qi Yu.</p>
+  <p></p><p>Developed by Qi Yu, Limin Peng.</p>
 </div>
 
 <div class="pkgdown-footer-right">
