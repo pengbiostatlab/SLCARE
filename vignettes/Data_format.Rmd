@@ -1,0 +1,38 @@
+---
+title: "Format of input dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data_format}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`SLCARE` requires the input datset have a specific format. We will illustrate the format with the `SLCARE_simdat` from the `SLCARE` package.
+
+```{r}
+library(SLCARE)
+packageVersion("SLCARE")
+```
+
+```{r}
+data("SLCARE_simdat", package = "SLCARE")
+head(SLCARE_simdat)
+```
+
+Dataset `SLCARE_simdat` consists of 5 columns. We can devide the 5 columns into 4 parts:
+
+- Column 1 `ID`: Subjects identification
+- Column 2 `time`: Time for recurrent event and censoring time (which usually represent the longest follow up time)
+- Column 3 `event`: Recurrent event indicator. A value of `1` represents the recurrent event is recorded; a value of `0` represents censoring.
+- Columns 4-5 `x1` and `x2`: time independent corvariates.
+
+Input datset should have the same format as `SLCARE_simdat`. Specifically, column 1-3 must be `ID`, `time` and `event`, and they must in the same order. Input datset can have as many corvariates as you need. They should be placed from column 4 which locates after `ID`, `time` and `event`.
+
+

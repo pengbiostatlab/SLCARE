@@ -8,7 +8,8 @@ Description: SLCARE is an R package for Semiparametric Latent Class Analysis for
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/qyxxx/SLCARE
+URL: https://github.com/qyxxx/SLCARE,
+    http://www.metaknight.us/SLCARE/
 BugReports: https://github.com/qyxxx/SLCARE/issues
 Imports:
     dplyr,
@@ -17,3 +18,7 @@ Imports:
     reReg,
     nnet
 RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
