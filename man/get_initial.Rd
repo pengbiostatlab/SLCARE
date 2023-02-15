@@ -21,5 +21,5 @@ A list containing the following components:
 }
 \description{
 Obtain initial value for alpha by: 1. assign class membership to all subjects with Kmeans, then fit the multinomial regression to obtain alpha.
-Obtain initial value for beta by fitting the ,ultiplicative intensity model studies by Wang et al. (2001) using the reReg() function, stratified by the latent class membership assigned by Kmeans.
+Obtain initial value for beta by fitting the multiplicative intensity model studies by Wang et al. (2001) using the reReg() function, stratified by the latent class membership assigned by Kmeans.
 }
