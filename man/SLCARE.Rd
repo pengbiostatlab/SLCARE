@@ -87,14 +87,19 @@ model1$RelativeEntropy
 model1$InitialAlpha
 model1$InitialBeta
 # You can select initial value in estimation procedure manually
-alpha <- matrix(c(0, 0, 0.5, -2, 2, -4), nrow = 3, ncol = 2, byrow = TRUE)
-beta <- matrix(c(2.5, -0.5, -0.3, 1.5, -0.2, -0.5, 2.5,  0.1, 0.2), nrow = 3 , ncol = 2+1 , byrow = TRUE)
+alpha <- matrix(c(0, 0, 0.5, -2, 2, -4),
+                nrow = 3, ncol = 2, byrow = TRUE)
+beta <- matrix(c(2.5, -0.5, -0.3, 1.5, -0.2, -0.5,
+                  2.5,  0.1, 0.2), nrow = 3 , ncol = 2+1 , byrow = TRUE)
 model2 <- SLCARE(alpha, beta, dat = SLCARE_simdat)
-# You can define individual frailty with gamma(p,p). Below is an example with manually defined initial value and frailty gamma(3,3)
+# You can define individual frailty with gamma(p,p).
+# Below is an example with manually defined initial value and frailty gamma(3,3)
 model3 <- SLCARE(alpha, beta, dat = SLCARE_simdat, gamma = 3)
-# You can use bootstrap for bootstrap standard error. Bootstrap sample size = 100 (time consuming procedure)
+# You can use bootstrap for bootstrap standard error.
+# Bootstrap sample size = 100 (time consuming procedure)
 # model4 <- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)
-# SLCARE() with "boot" argument will return to two additional contents: "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta
+# SLCARE() with "boot" argument will return to two additional contents:
+# "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta
 # model4$alpha_bootse
 # model4$beta_bootse
 }

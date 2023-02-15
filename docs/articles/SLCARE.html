@@ -176,13 +176,13 @@ function. See <code><a href="../reference/get_initial.html">SLCARE::get_initial(
 <p>We can check the point estimates for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span><span class="op">$</span><span class="va">alpha</span></span>
-<span><span class="co">#&gt;                x1       x2</span></span>
-<span><span class="co">#&gt; class1  0.0000000 0.000000</span></span>
-<span><span class="co">#&gt; class2 -0.2204357 3.736727</span></span>
+<span><span class="co">#&gt;               x1        x2</span></span>
+<span><span class="co">#&gt; class1 0.0000000  0.000000</span></span>
+<span><span class="co">#&gt; class2 0.2204357 -3.736727</span></span>
 <span><span class="va">model1</span><span class="op">$</span><span class="va">beta</span></span>
 <span><span class="co">#&gt;        (Intercept)        x1         x2</span></span>
-<span><span class="co">#&gt; class1    3.175178 -0.141808 -5.5362092</span></span>
-<span><span class="co">#&gt; class2    2.496767 -0.110277  0.1679575</span></span></code></pre></div>
+<span><span class="co">#&gt; class1    2.496767 -0.110277  0.1679575</span></span>
+<span><span class="co">#&gt; class2    3.175178 -0.141808 -5.5362092</span></span></code></pre></div>
 <p>We can check the posterior prediction for observed events for
 subjects of interest</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -241,57 +241,57 @@ subjects of interest</p>
 <p>We can check the posterior probability of latent class membership</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span><span class="op">$</span><span class="va">EstimatedTau</span></span>
-<span><span class="co">#&gt;        ID       class1      class2</span></span>
-<span><span class="co">#&gt; 1  UOM054 3.588689e-07 0.999999641</span></span>
-<span><span class="co">#&gt; 2   EM015 7.296420e-07 0.999999270</span></span>
-<span><span class="co">#&gt; 3    G078 1.353565e-03 0.998646435</span></span>
-<span><span class="co">#&gt; 4  UOM048 3.410495e-13 1.000000000</span></span>
-<span><span class="co">#&gt; 5    G050 1.159277e-03 0.998840723</span></span>
-<span><span class="co">#&gt; 6    G058 5.627606e-01 0.437239412</span></span>
-<span><span class="co">#&gt; 7   EM037 4.400867e-01 0.559913306</span></span>
-<span><span class="co">#&gt; 8    G052 9.901360e-01 0.009863978</span></span>
-<span><span class="co">#&gt; 9  UOM043 6.741273e-01 0.325872654</span></span>
-<span><span class="co">#&gt; 10   G064 9.013150e-25 1.000000000</span></span>
-<span><span class="co">#&gt; 11  EM036 9.986633e-01 0.001336693</span></span>
-<span><span class="co">#&gt; 12 UOM003 8.117824e-01 0.188217597</span></span>
-<span><span class="co">#&gt; 13  EM001 5.135745e-02 0.948642553</span></span>
-<span><span class="co">#&gt; 14 UOM020 3.327574e-10 1.000000000</span></span>
-<span><span class="co">#&gt; 15   G027 2.321358e-05 0.999976786</span></span>
-<span><span class="co">#&gt; 16 UOM023 5.446992e-09 0.999999995</span></span>
-<span><span class="co">#&gt; 17 UOM051 2.237160e-01 0.776284012</span></span>
-<span><span class="co">#&gt; 18   G036 2.850272e-01 0.714972850</span></span>
-<span><span class="co">#&gt; 19   G051 4.054462e-14 1.000000000</span></span>
-<span><span class="co">#&gt; 20 UOM055 8.946734e-02 0.910532662</span></span>
-<span><span class="co">#&gt; 21   G070 3.181733e-01 0.681826745</span></span>
-<span><span class="co">#&gt; 22 UOM009 4.528840e-01 0.547115965</span></span>
-<span><span class="co">#&gt; 23   G047 6.401963e-01 0.359803746</span></span>
-<span><span class="co">#&gt; 24   G007 1.638866e-02 0.983611339</span></span>
-<span><span class="co">#&gt; 25   G009 4.453413e-01 0.554658656</span></span>
-<span><span class="co">#&gt; 26   G004 9.447790e-01 0.055220951</span></span>
-<span><span class="co">#&gt; 27 UOM040 6.805918e-01 0.319408186</span></span>
-<span><span class="co">#&gt; 28  EM013 4.531447e-01 0.546855255</span></span>
-<span><span class="co">#&gt; 29   G066 9.877341e-01 0.012265950</span></span>
-<span><span class="co">#&gt; 30   G021 3.050702e-02 0.969492976</span></span>
-<span><span class="co">#&gt; 31   G061 7.094667e-01 0.290533287</span></span>
-<span><span class="co">#&gt; 32 UOM031 3.811819e-01 0.618818075</span></span>
-<span><span class="co">#&gt; 33  EM044 1.753943e-04 0.999824606</span></span>
-<span><span class="co">#&gt; 34   G015 2.242684e-05 0.999977573</span></span>
-<span><span class="co">#&gt; 35  EM018 2.306671e-05 0.999976933</span></span>
-<span><span class="co">#&gt; 36 UOM050 3.290086e-11 1.000000000</span></span>
-<span><span class="co">#&gt; 37   G005 5.669068e-01 0.433093210</span></span>
-<span><span class="co">#&gt; 38   G003 2.972703e-01 0.702729729</span></span>
-<span><span class="co">#&gt; 39   G018 4.544855e-01 0.545514459</span></span>
-<span><span class="co">#&gt; 40   G057 1.077511e-07 0.999999892</span></span>
-<span><span class="co">#&gt; 41   G072 3.875138e-01 0.612486202</span></span>
-<span><span class="co">#&gt; 42 UOM005 5.818215e-13 1.000000000</span></span>
-<span><span class="co">#&gt; 43   G019 5.525396e-01 0.447460375</span></span>
-<span><span class="co">#&gt; 44 UOM025 2.480969e-04 0.999751903</span></span>
-<span><span class="co">#&gt; 45   G065 6.901681e-01 0.309831911</span></span>
-<span><span class="co">#&gt; 46  EM014 2.688669e-03 0.997311331</span></span>
-<span><span class="co">#&gt; 47   G079 2.517514e-01 0.748248625</span></span>
-<span><span class="co">#&gt; 48 UOM007 4.659867e-01 0.534013300</span></span>
-<span><span class="co">#&gt; 49   G048 7.789482e-01 0.221051811</span></span>
-<span><span class="co">#&gt; 50   G080 3.742849e-07 0.999999626</span></span></code></pre></div>
+<span><span class="co">#&gt;        ID      class1       class2</span></span>
+<span><span class="co">#&gt; 1  UOM054 0.999999641 3.588689e-07</span></span>
+<span><span class="co">#&gt; 2   EM015 0.999999270 7.296420e-07</span></span>
+<span><span class="co">#&gt; 3    G078 0.998646435 1.353565e-03</span></span>
+<span><span class="co">#&gt; 4  UOM048 1.000000000 3.410495e-13</span></span>
+<span><span class="co">#&gt; 5    G050 0.998840723 1.159277e-03</span></span>
+<span><span class="co">#&gt; 6    G058 0.437239412 5.627606e-01</span></span>
+<span><span class="co">#&gt; 7   EM037 0.559913306 4.400867e-01</span></span>
+<span><span class="co">#&gt; 8    G052 0.009863978 9.901360e-01</span></span>
+<span><span class="co">#&gt; 9  UOM043 0.325872654 6.741273e-01</span></span>
+<span><span class="co">#&gt; 10   G064 1.000000000 9.013150e-25</span></span>
+<span><span class="co">#&gt; 11  EM036 0.001336693 9.986633e-01</span></span>
+<span><span class="co">#&gt; 12 UOM003 0.188217597 8.117824e-01</span></span>
+<span><span class="co">#&gt; 13  EM001 0.948642553 5.135745e-02</span></span>
+<span><span class="co">#&gt; 14 UOM020 1.000000000 3.327574e-10</span></span>
+<span><span class="co">#&gt; 15   G027 0.999976786 2.321358e-05</span></span>
+<span><span class="co">#&gt; 16 UOM023 0.999999995 5.446992e-09</span></span>
+<span><span class="co">#&gt; 17 UOM051 0.776284012 2.237160e-01</span></span>
+<span><span class="co">#&gt; 18   G036 0.714972850 2.850272e-01</span></span>
+<span><span class="co">#&gt; 19   G051 1.000000000 4.054462e-14</span></span>
+<span><span class="co">#&gt; 20 UOM055 0.910532662 8.946734e-02</span></span>
+<span><span class="co">#&gt; 21   G070 0.681826745 3.181733e-01</span></span>
+<span><span class="co">#&gt; 22 UOM009 0.547115965 4.528840e-01</span></span>
+<span><span class="co">#&gt; 23   G047 0.359803746 6.401963e-01</span></span>
+<span><span class="co">#&gt; 24   G007 0.983611339 1.638866e-02</span></span>
+<span><span class="co">#&gt; 25   G009 0.554658656 4.453413e-01</span></span>
+<span><span class="co">#&gt; 26   G004 0.055220951 9.447790e-01</span></span>
+<span><span class="co">#&gt; 27 UOM040 0.319408186 6.805918e-01</span></span>
+<span><span class="co">#&gt; 28  EM013 0.546855255 4.531447e-01</span></span>
+<span><span class="co">#&gt; 29   G066 0.012265950 9.877341e-01</span></span>
+<span><span class="co">#&gt; 30   G021 0.969492976 3.050702e-02</span></span>
+<span><span class="co">#&gt; 31   G061 0.290533287 7.094667e-01</span></span>
+<span><span class="co">#&gt; 32 UOM031 0.618818075 3.811819e-01</span></span>
+<span><span class="co">#&gt; 33  EM044 0.999824606 1.753943e-04</span></span>
+<span><span class="co">#&gt; 34   G015 0.999977573 2.242684e-05</span></span>
+<span><span class="co">#&gt; 35  EM018 0.999976933 2.306671e-05</span></span>
+<span><span class="co">#&gt; 36 UOM050 1.000000000 3.290086e-11</span></span>
+<span><span class="co">#&gt; 37   G005 0.433093210 5.669068e-01</span></span>
+<span><span class="co">#&gt; 38   G003 0.702729729 2.972703e-01</span></span>
+<span><span class="co">#&gt; 39   G018 0.545514459 4.544855e-01</span></span>
+<span><span class="co">#&gt; 40   G057 0.999999892 1.077511e-07</span></span>
+<span><span class="co">#&gt; 41   G072 0.612486202 3.875138e-01</span></span>
+<span><span class="co">#&gt; 42 UOM005 1.000000000 5.818215e-13</span></span>
+<span><span class="co">#&gt; 43   G019 0.447460375 5.525396e-01</span></span>
+<span><span class="co">#&gt; 44 UOM025 0.999751903 2.480969e-04</span></span>
+<span><span class="co">#&gt; 45   G065 0.309831911 6.901681e-01</span></span>
+<span><span class="co">#&gt; 46  EM014 0.997311331 2.688669e-03</span></span>
+<span><span class="co">#&gt; 47   G079 0.748248625 2.517514e-01</span></span>
+<span><span class="co">#&gt; 48 UOM007 0.534013300 4.659867e-01</span></span>
+<span><span class="co">#&gt; 49   G048 0.221051811 7.789482e-01</span></span>
+<span><span class="co">#&gt; 50   G080 0.999999626 3.742849e-07</span></span></code></pre></div>
 <p>We can check the plot for model checking</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span><span class="op">$</span><span class="va">ModelChecking</span></span></code></pre></div>
@@ -320,13 +320,13 @@ _{0}(t)\)</span></p>
 procedure</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span><span class="op">$</span><span class="va">InitialAlpha</span></span>
-<span><span class="co">#&gt;               x1       x2</span></span>
-<span><span class="co">#&gt; class1 0.0000000 0.000000</span></span>
-<span><span class="co">#&gt; class2 0.4984874 2.447667</span></span>
+<span><span class="co">#&gt;                x1        x2</span></span>
+<span><span class="co">#&gt; class1  0.0000000  0.000000</span></span>
+<span><span class="co">#&gt; class2 -0.4984874 -2.447667</span></span>
 <span><span class="va">model1</span><span class="op">$</span><span class="va">InitialBeta</span></span>
 <span><span class="co">#&gt;        intercept         x1          x2</span></span>
-<span><span class="co">#&gt; class1  2.125367  0.0107472 -1.09947581</span></span>
-<span><span class="co">#&gt; class2  2.563970 -0.2441563  0.06202144</span></span></code></pre></div>
+<span><span class="co">#&gt; class1  2.563970 -0.2441563  0.06202144</span></span>
+<span><span class="co">#&gt; class2  2.125367  0.0107472 -1.09947581</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fit-the-model-with-k-2-with-frailty-w-1-and-apply-self-defined-initial-values-in-estimation-procedure-">Fit the model with K = 2 with frailty <span class="math inline">\(W
