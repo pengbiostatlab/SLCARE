@@ -2,7 +2,7 @@
 
 ## Semiparametric Latent Class Analysis for Recurrent Events
 
-**SLCARE** implements a latent class analysis of recurrent event data based on a semeparametric multiplicative modeling.
+**SLCARE** implements a latent class analysis of recurrent event data based on a semiparametric multiplicative modeling.
 
 You can install SLCARE from github with:
 
