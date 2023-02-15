@@ -81,58 +81,15 @@
 <span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"qyxxx/SLCARE"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="data-format-and-slcare-function">Data format and SLCARE function<a class="anchor" aria-label="anchor" href="#data-format-and-slcare-function"></a>
+<h3 id="online-documentation">Online documentation<a class="anchor" aria-label="anchor" href="#online-documentation"></a>
 </h3>
-<p><strong>SLCARE</strong> needs a regulated data format as input. You can check R help document for an example by input</p>
-<pre class="{r}"><code><span><span class="op">?</span> <span class="va">SLCARE_simdat</span></span></code></pre>
-<p>You can check the simulated dataset by input</p>
-<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">SLCARE_simdat</span><span class="op">)</span></span></code></pre>
-<p>You can conduct an analysis with a single function ‘SLCARE()’. You can check R helpe document for an instruction by inputting</p>
-<pre class="{r}"><code><span><span class="op">?</span> <span class="va">SLCARE</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="exmaples">Exmaples<a class="anchor" aria-label="anchor" href="#exmaples"></a>
-</h3>
-<pre class="{r}"><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/qyxxx/SLCARE" class="external-link">SLCARE</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">SLCARE_simdat</span><span class="op">)</span></span>
-<span><span class="co"># Example 1: number of latent classes k = 2, default settings, generate initial values in estimation procedure with Kmeans</span></span>
-<span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SLCARE.html">SLCARE</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">SLCARE_simdat</span>, K<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co"># contents of output</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span>
-<span><span class="co"># point estimates</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">alpha</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">beta</span></span>
-<span><span class="co"># converge loss in estimation procedure</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">convergeloss</span></span>
-<span><span class="co"># Posterior prediction</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">PosteriorPrediction</span></span>
-<span><span class="co"># Posterior probability of latent class membership</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">EstimatedTau</span></span>
-<span><span class="co"># model checking plot</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">ModelChecking</span></span>
-<span><span class="co"># Plot of estimated \eqn(\mu_0 (t)) for all observed time</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">Estimated_mu0t</span></span>
-<span><span class="co"># Estimated \eqn(\mu_0 (t))</span></span>
-<span><span class="co"># You may input multiple time points of interest</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="fu">est_mu0</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">5000</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># Plot of estimated mean function</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">Estimated_Mean_Function</span></span>
-<span><span class="co"># Relative entropy</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">RelativeEntropy</span></span>
-<span><span class="co"># Initial values for estimation procedure</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">InitialAlpha</span></span>
-<span><span class="va">model1</span><span class="op">$</span><span class="va">InitialBeta</span></span>
-<span><span class="co"># You can select initial value in estimation procedure manually</span></span>
-<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="op">-</span><span class="fl">4</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.3</span>, <span class="fl">1.5</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">2.5</span>,  <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span> , ncol <span class="op">=</span> <span class="fl">2</span><span class="op">+</span><span class="fl">1</span> , byrow <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SLCARE.html">SLCARE</a></span><span class="op">(</span><span class="va">alpha</span>, <span class="va">beta</span>, <span class="va">dat</span><span class="op">)</span></span>
-<span><span class="co"># You can define individual frailty with gamma(p,p). Below is an example with manually defined initial value and frailty gamma(3,3)</span></span>
-<span><span class="va">model3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SLCARE.html">SLCARE</a></span><span class="op">(</span><span class="va">alpha</span>, <span class="va">beta</span>, <span class="va">dat</span>, gamma <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co"># You can use bootstrap for bootstrap standard error. Bootstrap sample size = 100 (time consuming procedure)</span></span>
-<span><span class="co"># model4 &lt;- SLCARE(alpha, beta, dat, boot = 100)</span></span>
-<span><span class="co"># SLCARE() with "boot" argument will return to two additional contents: "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta</span></span>
-<span><span class="va">model5</span><span class="op">$</span><span class="va">alpha_bootse</span></span>
-<span><span class="va">model5</span><span class="op">$</span><span class="va">beta_bootse</span></span></code></pre>
+<p><a href="https://www.metaknight.us/SLCARE/index.html" class="external-link">online document</a> includes:</p>
+<ul>
+<li><a href="https://www.metaknight.us/SLCARE/articles/Data_format.html" class="external-link">Format of input dataset</a></li>
+<li><a href="https://www.metaknight.us/SLCARE/articles/SLCARE.html" class="external-link">Using SLCARE</a></li>
+<li><a href="https://www.metaknight.us/SLCARE/reference/index.html" class="external-link">Function Reference</a></li>
+<li><a href="https://www.metaknight.us/SLCARE/articles/Estimation_procedure.html" class="external-link">Estimation Procedure</a></li>
+</ul>
 </div>
 </div>
 </div>
