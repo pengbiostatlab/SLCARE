@@ -59,7 +59,8 @@ Conduct Semiparametric Latent Class Analysis for Recurrent Event.
 }
 \examples{
 data(SLCARE_simdat)
-# Example 1: number of latent classes k = 2, default settings, generate initial values in estimation procedure with Kmeans
+# Example 1: number of latent classes k = 2,
+# By default, generate initial values in estimation procedure with K-means
 model1 <- SLCARE(dat = SLCARE_simdat, K=2)
 # contents of output
 names(model1)
@@ -99,7 +100,7 @@ model3 <- SLCARE(alpha, beta, dat = SLCARE_simdat, gamma = 3)
 # Bootstrap sample size = 100 (time consuming procedure)
 # model4 <- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)
 # SLCARE() with "boot" argument will return to two additional contents:
-# "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta
+# "alpha_bootse", "beta_bootse" which are Bootsrap standard errors.
 # model4$alpha_bootse
 # model4$beta_bootse
 }

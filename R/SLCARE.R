@@ -73,7 +73,7 @@
 #' # Bootstrap sample size = 100 (time consuming procedure)
 #' # model4 <- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)
 #' # SLCARE() with "boot" argument will return to two additional contents:
-#' # "alpha_bootse", "beta_bootse" which represent bootsrap standard errors for alpha and beta
+#' # "alpha_bootse", "beta_bootse" which are Bootsrap standard errors.
 #' # model4$alpha_bootse
 #' # model4$beta_bootse
 
