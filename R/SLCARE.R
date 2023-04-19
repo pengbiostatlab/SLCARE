@@ -213,8 +213,6 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
     beta_bootsd <- matrix(apply(list_beta_boot, 2, function(x) sd(x[quantile(x , 0.025) <= x & x <= quantile(x, 0.975)])) , nrow = K)
     alpha_bootsd <- matrix(apply(list_alpha_boot, 2, function(x) sd(x[quantile(x , 0.025) <= x & x <= quantile(x, 0.975)])) , nrow = K)
-    ##beta_bootsd <- matrix(apply(list_beta_boot, 2, function(x) sd(x)) , nrow = K)
-    ##alpha_bootsd <- matrix(apply(list_alpha_boot, 2, function(x) sd(x)) , nrow = K)
     colnames(alpha_bootsd) <- colnames(output$alpha)
     rownames(alpha_bootsd) <- rownames(output$alpha)
     colnames(beta_bootsd)  <- colnames(output$beta)
@@ -224,9 +222,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   }
 
-
-  #add posterior predict
-
+  #posterior predict
   predict <- SLCA_predict(output$alpha, output$beta, d, Z, mu_censor, gamma)
 
   PosteriorPrediction <- cbind(id_wide, predict$PosteriorPredict)
@@ -235,8 +231,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   colnames(EstimatedTau) <- c("ID",paste0("class", c(1:K), sep = ""))
   output <- append(output, list("PosteriorPrediction" = PosteriorPrediction, "EstimatedTau" = EstimatedTau))
 
-  #add model checking
-
+  #model checking
   modelcheckdat <- as.data.frame(cbind(d, predict$PosteriorPredict))
 
   colnames(modelcheckdat) <- c("observed", "predicted")
@@ -250,12 +245,11 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   output <- append(output, list("ModelChecking" = modelcheckplot))
 
-  #add est_mu0
-
+  #est_mu0
   output$est_mu0 <- function(t)
     sapply(t, function(x) mu_t(time_long, censor_long, x))
 
-  #add plot mu_0(t)
+  #plot mu_0(t)
   tseq <- seq(from = min(time_long), to = max(censor_wide), by = (max(censor_wide) - min(time_long))/200 )
   mu0_tseq <- sapply(tseq, function(x) mu_t(time_long, censor_long, x))
 
@@ -273,7 +267,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   output <- append(output, list("Estimated_mu0t" = estmu_plot))
 
-  #add estimated mean plot
+  #estimated mean plot
   post_xi <- apply(predict$tauhat, 1, function(x) which.max(x))
   #post_xi_tau <- cbind(post_xi, predict$tauhat)
   tauexpzbeta <- apply(as.matrix(predict$tauhat) * exp(as.matrix(cbind(1, Z)) %*% t(as.matrix(output$beta))), 1, sum)

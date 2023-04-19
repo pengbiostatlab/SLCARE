@@ -41,7 +41,7 @@ get_initial <- function(dat, K){
 
   ini_alpha <- summary(alpha_regression)$coefficients
   ini_alpha <- rbind(0, ini_alpha)
-  ini_alpha <- ini_alpha[,-1]
+  ini_alpha <- as.matrix(ini_alpha[,-1])
 
   # get initial beta use Wang's method
 
