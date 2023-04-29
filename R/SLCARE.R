@@ -258,7 +258,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   colnames(mu0_t_dat) <- c("t", "mu0t")
 
   estmu_plot <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
-              geom_smooth(se = FALSE) +
+              #geom_smooth(se = FALSE) +
+    geom_line(size = 1) +
     theme(aspect.ratio = 1) +
     ggtitle(expression(paste(Estimated~mu[0]~(t)))) +
     xlab("t") +
