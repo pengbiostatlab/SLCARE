@@ -7,10 +7,16 @@
 You can install SLCARE from github with:
 
 ```R
-if (!require("devtools", quietly = TRUE))
-    install.packages("devtools")
+if (!require("pak", quietly = TRUE))
+    install.packages("pak")
 
-devtools::install_github("qyxxx/SLCARE")
+pak::pak("qyxxx/SLCARE")
+```
+
+Or install SLCARE from CRAN with:
+
+```R
+install.packages("SLCARE")
 ```
 
 ### Online documentation
