@@ -280,7 +280,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   estmean_crossingdat$class <- as.factor(estmean_crossingdat$post_xi)
 
   estmean_plot <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class)) +
-    geom_smooth(se = FALSE) +
+    #geom_smooth(se = FALSE) +
+    geom_line(size = 1) +
     theme(aspect.ratio = 1) +
     ggtitle("Estimated Mean Function Plot") +
     xlab("t") +
