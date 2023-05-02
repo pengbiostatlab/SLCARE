@@ -225,7 +225,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   #posterior predict
   predict <- SLCA_predict(output$alpha, output$beta, d, Z, mu_censor, gamma)
 
-  PosteriorPrediction <- cbind(id_wide, predict$PosteriorPredict)
+  PosteriorPrediction <- cbind(id_wide, floor(predict$PosteriorPredict))
   colnames(PosteriorPrediction) <- c("ID", "PosteriorPrediction")
   EstimatedTau <- cbind(id_wide, predict$tauhat)
   colnames(EstimatedTau) <- c("ID",paste0("class", c(1:K), sep = ""))
