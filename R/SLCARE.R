@@ -232,12 +232,13 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   output <- append(output, list("PosteriorPrediction" = PosteriorPrediction, "EstimatedTau" = EstimatedTau))
 
   #model checking
-  modelcheckdat <- as.data.frame(cbind(d, floor(predict$PosteriorPredict)))
+  modelcheckdat <- as.data.frame(cbind(d, round(predict$PosteriorPredict,0)))
 
   colnames(modelcheckdat) <- c("observed", "predicted")
 
   modelcheckplot <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
                           geom_point() +
+                          geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue')
                           geom_abline(intercept = 0, slope = 1) +
                           theme(aspect.ratio=1) +
                           ggtitle("Model Checking")
