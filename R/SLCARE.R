@@ -232,19 +232,26 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   output <- append(output, list("PosteriorPrediction" = PosteriorPrediction, "EstimatedTau" = EstimatedTau))
 
   #model checking
-  modelcheckdat <- as.data.frame(cbind(d, round(predict$PosteriorPredict,0)))
+  modelcheckdat <- as.data.frame(cbind(d, predict$PosteriorPredict))
 
   colnames(modelcheckdat) <- c("observed", "predicted")
 
+  modelcheck_gg <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
+    #geom_point() +
+    #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
+    geom_abline(intercept = 0, slope = 1) +
+    theme(aspect.ratio=1) +
+    ggtitle("Model Checking")
+
   modelcheckplot <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
                           geom_point() +
-                          geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
+                          #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
                           geom_abline(intercept = 0, slope = 1) +
                           theme(aspect.ratio=1) +
                           ggtitle("Model Checking")
                           #coord_fixed(ratio = 1)
 
-  output <- append(output, list("ModelChecking" = modelcheckplot))
+  output <- append(output, list("ModelChecking" = modelcheckplot, "ModelChecking_gg" = modelcheck_gg))
 
   #est_mu0
   output$est_mu0 <- function(t)
@@ -258,6 +265,12 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   colnames(mu0_t_dat) <- c("t", "mu0t")
 
+  estmu_gg <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
+    theme(aspect.ratio = 1) +
+    ggtitle(expression(paste(Estimated~mu[0]~(t)))) +
+    xlab("t") +
+    ylab(expression(paste(mu[0]~(t))))
+
   estmu_plot <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
               #geom_smooth(se = FALSE) +
     geom_line(size = 1) +
@@ -267,7 +280,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     ylab(expression(paste(mu[0]~(t))))
 
 
-  output <- append(output, list("Estimated_mu0t" = estmu_plot))
+  output <- append(output, list("Estimated_mu0t" = estmu_plot, "Estimated_mu0t_gg" = estmu_gg))
 
   #estimated mean plot
   post_xi <- apply(predict$tauhat, 1, function(x) which.max(x))
@@ -281,6 +294,13 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
   estmean_crossingdat <- estmean_crossingdat |> mutate(mu0_t_dat_par = par * mu0t)
   estmean_crossingdat$class <- as.factor(estmean_crossingdat$post_xi)
 
+  estmean_gg <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class)) +
+    theme(aspect.ratio = 1) +
+    ggtitle("Estimated Mean Function Plot") +
+    xlab("t") +
+    ylab("Estimated Mean Function")
+
+
   estmean_plot <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class)) +
     #geom_smooth(se = FALSE) +
     geom_line(size = 1) +
@@ -289,7 +309,7 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     xlab("t") +
     ylab("Estimated Mean Function")
 
-  output <- append(output, list("Estimated_Mean_Function" = estmean_plot))
+  output <- append(output, list("Estimated_Mean_Function" = estmean_plot, "Estimated_Mean_Function_gg" = estmean_gg))
 
 
   entropy <- entropy(output$alpha, output$beta, d, Z, mu_censor, gamma)
