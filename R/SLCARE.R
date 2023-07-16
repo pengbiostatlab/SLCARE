@@ -267,17 +267,17 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   estmu_gg <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
     theme(aspect.ratio = 1) +
-    ggtitle(expression(paste(Estimated~mu[0]~(t)))) +
+    ggtitle(expression(paste(Plot~of~hat(mu)~(t)))) +
     xlab("t") +
-    ylab(expression(paste(mu[0]~(t))))
+    ylab(expression(paste(hat(mu)~(t))))
 
   estmu_plot <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
               #geom_smooth(se = FALSE) +
     geom_line(size = 1) +
     theme(aspect.ratio = 1) +
-    ggtitle(expression(paste(Estimated~mu[0]~(t)))) +
+    ggtitle(expression(paste(Plot~of~hat(mu)~(t)))) +
     xlab("t") +
-    ylab(expression(paste(mu[0]~(t))))
+    ylab(expression(paste(hat(mu)~(t))))
 
 
   output <- append(output, list("Estimated_mu0t" = estmu_plot, "Estimated_mu0t_gg" = estmu_gg))
