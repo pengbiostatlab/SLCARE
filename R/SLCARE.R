@@ -241,14 +241,14 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
     geom_abline(intercept = 0, slope = 1) +
     theme(aspect.ratio=1) +
-    ggtitle("Model Checking")
+    ggtitle("Model Checking Plot")
 
   modelcheckplot <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
                           geom_point() +
                           #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
                           geom_abline(intercept = 0, slope = 1) +
                           theme(aspect.ratio=1) +
-                          ggtitle("Model Checking")
+                          ggtitle("Model Checking Plot")
                           #coord_fixed(ratio = 1)
 
   output <- append(output, list("ModelChecking" = modelcheckplot, "ModelChecking_gg" = modelcheck_gg))
