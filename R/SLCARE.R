@@ -250,7 +250,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
                           #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
                           geom_abline(intercept = 0, slope = 1) +
                           theme(aspect.ratio=1) +
-                          ggtitle("Model Checking Plot")
+                          ggtitle("Model Checking Plot") +
+                          expand_limits(x = 0, y = 0)
                           #coord_fixed(ratio = 1)
 
   output <- append(output, list("ModelChecking" = modelcheckplot, "ModelChecking_gg" = modelcheck_gg))
@@ -279,7 +280,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     theme(aspect.ratio = 1) +
     ggtitle(expression(paste(Plot~of~hat(mu)~(t)))) +
     xlab("t") +
-    ylab(expression(paste(hat(mu)~(t))))
+    ylab(expression(paste(hat(mu)~(t)))) +
+    expand_limits(x = 0, y = 0)
 
 
   output <- append(output, list("Estimated_mu0t" = estmu_plot, "Estimated_mu0t_gg" = estmu_gg))
@@ -309,7 +311,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
     theme(aspect.ratio = 1) +
     ggtitle("Estimated Mean Function Plot") +
     xlab("t") +
-    ylab("Estimated Mean Function")
+    ylab("Estimated Mean Function") +
+    expand_limits(x = 0, y = 0)
 
   output <- append(output, list("Estimated_Mean_Function" = estmean_plot, "Estimated_Mean_Function_gg" = estmean_gg))
 
