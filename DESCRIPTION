@@ -1,7 +1,7 @@
 Package: SLCARE
 Type: Package
 Title: Semiparametric Latent Class Analysis for Recurrent Event
-Version: 1.0.1
+Version: 0.2.0
 Authors@R: c(person(given = "Qi", family = "Yu",
 	   email = "qi.yu2@emory.edu",
 	   role = c("aut", "cre")),
