@@ -236,6 +236,8 @@ SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
 
   colnames(modelcheckdat) <- c("observed", "predicted")
 
+  modelcheckdat <- modelcheckdat |> dplyr::filter(observed != 0)
+
   modelcheck_gg <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
     #geom_point() +
     #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
