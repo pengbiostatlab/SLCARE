@@ -1,12 +1,28 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # SLCARE
 
-## Semiparametric Latent Class Analysis for Recurrent Events
+<!-- badges: start -->
+<!-- badges: end -->
 
-**SLCARE** implements a latent class analysis of recurrent event data based on a semiparametric multiplicative modeling.
+Recurrent event data frequently arise in biomedical follow-up studies.
+The concept of latent classes enables researchers to characterize
+complex population heterogeneity in a plausible and parsimonious way.
+SLCARE implements a robust and flexible algorithm to carry out Zhao et
+al.(2022)’s latent class analysis method for recurrent event data, where
+semiparametric multiplicative intensity modeling is adopted. SLCARE
+returns estimates for non-functional model parameters along with the
+associated variance estimates. Visualization tools are provided to
+depict the estimated functional model parameters and related functional
+quantities of interest. SLCARE also delivers a model checking plot to
+help assess the adequacy of the fitted model.
 
-You can install SLCARE from github with:
+## Installation
 
-```R
+You can install the development version of SLCARE like so:
+
+``` r
 if (!require("pak", quietly = TRUE))
     install.packages("pak")
 
@@ -15,18 +31,6 @@ pak::pak("qyxxx/SLCARE")
 
 Or install SLCARE from CRAN with:
 
-```R
+``` r
 install.packages("SLCARE")
 ```
-
-### Online documentation
-
-[online document](https://www.metaknight.us/SLCARE/index.html) includes:
-
-- [Format of input dataset](https://www.metaknight.us/SLCARE/articles/Data_format.html)
-- [Using SLCARE](https://www.metaknight.us/SLCARE/articles/SLCARE.html)
-- [Function Reference](https://www.metaknight.us/SLCARE/reference/index.html)
-- [Estimation Procedure](https://www.metaknight.us/SLCARE/articles/Estimation_procedure.html)
-
-
-

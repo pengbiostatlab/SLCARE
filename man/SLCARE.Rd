@@ -5,102 +5,109 @@
 \title{Semiparametric Latent Class Analysis for Recurrent Event}
 \usage{
 SLCARE(
+  formula = "x1 + x2",
   alpha = NULL,
   beta = NULL,
-  dat,
+  data = data,
+  id_col = "id",
+  start_col = "start",
+  stop_col = "stop",
+  event_col = "event",
   K = NULL,
   gamma = 0,
-  max_epoches = 500,
+  max_epochs = 500,
   conv_threshold = 0.01,
   boot = NULL
 )
 }
 \arguments{
-\item{alpha}{initial values for alpha for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.}
+\item{formula}{A string specifying the variables of interest to be involved in the regression, with the format of "x1 + x2".}
 
-\item{beta}{initial value for beta for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.}
+\item{alpha}{initial values for alpha for estimation procedure (multinomial logistic regression model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.}
 
-\item{dat}{a data frame containing the data in the model}
+\item{beta}{initial value for beta for estimation procedure (recurrent event model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.}
 
-\item{K}{number of latent classes}
+\item{data}{a long-format Data-frame.}
 
-\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k)}
+\item{id_col}{the unique identifier per subject.}
 
-\item{max_epoches}{maximum iteration epoches for estimation procedure}
+\item{start_col}{start time of the interval for the recurrent event.}
 
-\item{conv_threshold}{converge threshold for estimation procedure}
+\item{stop_col}{ending time of the interval for the recurrent event.}
 
-\item{boot}{bootstrap sample size}
-}
-\value{
-A list containing the following components:
-\describe{
-\item{alpha}{Point estimates for alpha}
-\item{beta}{Point estimates for beta}
-\item{convergeloss}{Converge loss in estimation procedure}
-\item{PosteriorPrediction}{Posterior prediction for observed events for subjects of interest}
-\item{EstimatedTau}{Posterior probability of latent class membership}
-\item{ModelChecking}{Plot for model checking}
-\item{Estimated_mu0t}{Plot for estimated mu0(t)}
-\item{est_mu0()}{A function allows to calculate mu0(t) for specific time points}
-\item{Estimated_Mean_Function}{Plot of estimated mean functions}
-\item{RelativeEntropy}{Relative entropy}
-\item{InitialAlpha}{Initial alpha for estimation procedure}
-\item{InitialBeta}{Initial beta for estimation procedure}
-}
-If argument 'boot' is non-NULL, then SLCARE returns two additional components:
-\describe{
-\item{alpha_bootse}{Bootstrap standard error for alpha}
-\item{beta_bootse}{Bootstrap standard error for beta}
-}
+\item{event_col}{The status indicator; 1 if a recurrent event is observed.}
+
+\item{K}{number of latent classes.}
+
+\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k).}
+
+\item{max_epochs}{maximum iteration epochs for the estimation procedure.}
+
+\item{conv_threshold}{converge threshold for the estimation procedure.}
+
+\item{boot}{a numeric value specifies the number of bootstraps for variance estimation.
+When \code{boot = NULL}, variance estimation will not be performed.}
 }
 \description{
-Conduct Semiparametric Latent Class Analysis for Recurrent Event.
+Fit semiparametric latent class model for recurrent event.
+}
+\details{
+\bold{Model:}
+
+Suppose the recurrent events process is observed with the intensity function proposed in Zhao et al. (2022):
+\deqn{\lambda _{i} (t) = \sum _{k = 1} ^{K} I (\xi _{i} = k) \times \lambda _{0} (t) \times W_{i} \times \eta _{0,k} \times \exp(\tilde{Z} _{i} ^{\top} \tilde{\beta} _{0,k}) }
+where \eqn{K} is the number of latent classes in the whole population,
+\eqn{\xi_i} denotes the unobserved latent class membership,
+\eqn{\lambda _{0} (t)} is an unspecified, continuous,
+nonnegative baseline intensity function shared by all latent classes,
+\eqn{C_i} is the subject specific censoring time,
+\eqn{\tilde{Z}_i} is the time-independent covariates,
+\eqn{W_{i}} is a positive subject-specific latent variable independent of \eqn{(\xi_i, \tilde{Z}_i, C_i)}.
+
+The distribution of the latent class membership \eqn{\xi _{i}} is modeled by a logistic regression model:
+\deqn{P(\xi _{i} = k | \tilde{Z} _{i}) = p_{k} (\alpha _{0} , \tilde{Z} _{i}) \doteq \frac{\exp(\tilde{Z} _{i} ^{\top} \alpha _{0,k})}{\sum_{k = 1}^{K}\exp(\tilde{Z} _{i} ^{\top} \alpha _{0,k}) } , \quad k = 1, \cdots, K }
+
+\code{SLCARE} is build for introducing a robust and flexible algorithm to carry out Zhao et al. (2022)'s latent class analysis method for recurrent event data described above.
+The detailed discussion of the proposed estimation algorithms can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
+
+\bold{Initial Values:}
+
+The proposed estimating algorithm needs an input of initial values for \eqn{\hat{\beta}} and \eqn{\hat{\alpha}}.
+\code{SLCARE} allows users to specify the initial values for the estimation algorithm by their own choice.
+\code{SLCARE} also provide an automated initializer which obtains the initial values using
+a combination of K-means clustering, multinomial regression and Wang et al. (2001)'s multiplicative intensity model.
+The detailed discussion of the proposed estimation algorithms can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
+
+\bold{Specify the number of latent classes and individual frailty:}
+
+\code{SLCARE} allows the frailty distribution to be W = 1 or W follows a distribution that is parameterized as Gamma(k,k). These choices of frailty distributions cover a variety of density forms.
+Suggested by Zhao et al. (2022), users can choose the distribution of individual frailty and the number of latent classes based on the model entropy provided by \code{SLCARE}.
+An example of model selection can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
 }
 \examples{
-data(SLCARE_simdat)
-# Example 1: number of latent classes k = 2,
-# By default, generate initial values in estimation procedure with K-means
-model1 <- SLCARE(dat = SLCARE_simdat, K=2)
-# contents of output
-names(model1)
-# point estimates
-model1$alpha
-model1$beta
-# converge loss in estimation procedure
-model1$convergeloss
-# Posterior prediction
-model1$PosteriorPrediction
-# Posterior probability of latent class membership
-model1$EstimatedTau
-# model checking plot
-model1$ModelChecking
-# Plot of estimated \eqn(\mu_0 (t)) for all observed time
-model1$Estimated_mu0t
-# Estimated \eqn(\mu_0 (t))
-# You may input multiple time points of interest
-model1$est_mu0(c(100, 1000, 5000))
-# Plot of estimated mean function
-model1$Estimated_Mean_Function
-# Relative entropy
-model1$RelativeEntropy
-# Initial values for estimation procedure
-model1$InitialAlpha
-model1$InitialBeta
-# You can select initial value in estimation procedure manually
-alpha <- matrix(c(0, 0, 0.5, -2, 2, -4),
-                nrow = 3, ncol = 2, byrow = TRUE)
-beta <- matrix(c(2.5, -0.5, -0.3, 1.5, -0.2, -0.5,
-                  2.5,  0.1, 0.2), nrow = 3 , ncol = 2+1 , byrow = TRUE)
-model2 <- SLCARE(alpha, beta, dat = SLCARE_simdat)
-# You can define individual frailty with gamma(p,p).
-# Below is an example with manually defined initial value and frailty gamma(3,3)
-model3 <- SLCARE(alpha, beta, dat = SLCARE_simdat, gamma = 3)
-# You can use bootstrap for bootstrap standard error.
-# Bootstrap sample size = 100 (time consuming procedure)
-# model4 <- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)
-# SLCARE() with "boot" argument will return to two additional contents:
-# "alpha_bootse", "beta_bootse" which are Bootsrap standard errors.
-# model4$alpha_bootse
-# model4$beta_bootse
+data(SimData)
+
+# fit SLCARE with K = 2, formula = "x1 + x2" and default settings for other arguments
+model1 <- SLCARE(data = SimData, K = 2, formula = "x1 + x2")
+
+# summary results
+summary(model1, digits = 3)
+
+# generate model checking plot
+plot(model1, type = "ModelChecking")
+
+# plot estimated cumulative baseline intensity function
+plot(model1, type = "mu0")
+
+# generate estimated mean function plot
+plot(model1, type = "EstMeans")
+
+# check class membership probabilities of the 6th - 10th subjects in SimData
+print(model1, type = "ClassProb")[6:10,]
+
+# check the predicted number of recurrent events of the 6th - 10th subjects in SimData
+print(model1, type = "PostPredict")[6:10,]
+
+# check the change in parameter estimates in the last iteration
+print(model1, type = "ConvergeLoss")
 }

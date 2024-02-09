@@ -1,329 +1,244 @@
 #' @title Semiparametric Latent Class Analysis for Recurrent Event
-#' @description Conduct Semiparametric Latent Class Analysis for Recurrent Event.
-#' @param alpha initial values for alpha for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
-#' @param beta initial value for beta for estimation procedure. This should be NULL or a numberic matirx. NULL means obtain initial value with k-means.
-#' @param dat a data frame containing the data in the model
-#' @param K number of latent classes
-#' @param gamma individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k)
-#' @param max_epoches maximum iteration epoches for estimation procedure
-#' @param conv_threshold converge threshold for estimation procedure
-#' @param boot bootstrap sample size
-#' @return A list containing the following components:
-#' \describe{
-#' \item{alpha}{Point estimates for alpha}
-#' \item{beta}{Point estimates for beta}
-#' \item{convergeloss}{Converge loss in estimation procedure}
-#' \item{PosteriorPrediction}{Posterior prediction for observed events for subjects of interest}
-#' \item{EstimatedTau}{Posterior probability of latent class membership}
-#' \item{ModelChecking}{Plot for model checking}
-#' \item{Estimated_mu0t}{Plot for estimated mu0(t)}
-#' \item{est_mu0()}{A function allows to calculate mu0(t) for specific time points}
-#' \item{Estimated_Mean_Function}{Plot of estimated mean functions}
-#' \item{RelativeEntropy}{Relative entropy}
-#' \item{InitialAlpha}{Initial alpha for estimation procedure}
-#' \item{InitialBeta}{Initial beta for estimation procedure}
-#' }
-#' If argument 'boot' is non-NULL, then SLCARE returns two additional components:
-#' \describe{
-#' \item{alpha_bootse}{Bootstrap standard error for alpha}
-#' \item{beta_bootse}{Bootstrap standard error for beta}
-#' }
-#' @import dplyr tidyr ggplot2 reReg nnet
+#' @description Fit semiparametric latent class model for recurrent event.
+#' @details
+#'
+#' \bold{Model:}
+#'
+#' Suppose the recurrent events process is observed with the intensity function proposed in Zhao et al. (2022):
+#' \deqn{\lambda _{i} (t) = \sum _{k = 1} ^{K} I (\xi _{i} = k) \times \lambda _{0} (t) \times W_{i} \times \eta _{0,k} \times \exp(\tilde{Z} _{i} ^{\top} \tilde{\beta} _{0,k}) }
+#' where \eqn{K} is the number of latent classes in the whole population,
+#' \eqn{\xi_i} denotes the unobserved latent class membership,
+#' \eqn{\lambda _{0} (t)} is an unspecified, continuous,
+#' nonnegative baseline intensity function shared by all latent classes,
+#' \eqn{C_i} is the subject specific censoring time,
+#' \eqn{\tilde{Z}_i} is the time-independent covariates,
+#' \eqn{W_{i}} is a positive subject-specific latent variable independent of \eqn{(\xi_i, \tilde{Z}_i, C_i)}.
+#'
+#' The distribution of the latent class membership \eqn{\xi _{i}} is modeled by a logistic regression model:
+#' \deqn{P(\xi _{i} = k | \tilde{Z} _{i}) = p_{k} (\alpha _{0} , \tilde{Z} _{i}) \doteq \frac{\exp(\tilde{Z} _{i} ^{\top} \alpha _{0,k})}{\sum_{k = 1}^{K}\exp(\tilde{Z} _{i} ^{\top} \alpha _{0,k}) } , \quad k = 1, \cdots, K }
+#'
+#' \code{SLCARE} is build for introducing a robust and flexible algorithm to carry out Zhao et al. (2022)'s latent class analysis method for recurrent event data described above.
+#' The detailed discussion of the proposed estimation algorithms can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
+#'
+#' \bold{Initial Values:}
+#'
+#' The proposed estimating algorithm needs an input of initial values for \eqn{\hat{\beta}} and \eqn{\hat{\alpha}}.
+#' \code{SLCARE} allows users to specify the initial values for the estimation algorithm by their own choice.
+#' \code{SLCARE} also provide an automated initializer which obtains the initial values using
+#' a combination of K-means clustering, multinomial regression and Wang et al. (2001)'s multiplicative intensity model.
+#' The detailed discussion of the proposed estimation algorithms can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
+#'
+#' \bold{Specify the number of latent classes and individual frailty:}
+#'
+#' \code{SLCARE} allows the frailty distribution to be W = 1 or W follows a distribution that is parameterized as Gamma(k,k). These choices of frailty distributions cover a variety of density forms.
+#' Suggested by Zhao et al. (2022), users can choose the distribution of individual frailty and the number of latent classes based on the model entropy provided by \code{SLCARE}.
+#' An example of model selection can be found in the paper "SLCARE: An R package for Semiparametric Latent Class Analysis of Recurrent Events" (in preparation).
+#'
+#' @param formula A string specifying the variables of interest to be involved in the regression, with the format of "x1 + x2".
+#' @param alpha initial values for alpha for estimation procedure (multinomial logistic regression model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.
+#' @param beta initial value for beta for estimation procedure (recurrent event model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.
+#' @param data a long-format Data-frame.
+#' @param id_col the unique identifier per subject.
+#' @param start_col start time of the interval for the recurrent event.
+#' @param stop_col ending time of the interval for the recurrent event.
+#' @param event_col The status indicator; 1 if a recurrent event is observed.
+#' @param K number of latent classes.
+#' @param gamma individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k).
+#' @param max_epochs maximum iteration epochs for the estimation procedure.
+#' @param conv_threshold converge threshold for the estimation procedure.
+#' @param boot a numeric value specifies the number of bootstraps for variance estimation.
+#' When \code{boot = NULL}, variance estimation will not be performed.
 #' @export
-#' @examples
-#' data(SLCARE_simdat)
-#' # Example 1: number of latent classes k = 2,
-#' # By default, generate initial values in estimation procedure with K-means
-#' model1 <- SLCARE(dat = SLCARE_simdat, K=2)
-#' # contents of output
-#' names(model1)
-#' # point estimates
-#' model1$alpha
-#' model1$beta
-#' # converge loss in estimation procedure
-#' model1$convergeloss
-#' # Posterior prediction
-#' model1$PosteriorPrediction
-#' # Posterior probability of latent class membership
-#' model1$EstimatedTau
-#' # model checking plot
-#' model1$ModelChecking
-#' # Plot of estimated \eqn(\mu_0 (t)) for all observed time
-#' model1$Estimated_mu0t
-#' # Estimated \eqn(\mu_0 (t))
-#' # You may input multiple time points of interest
-#' model1$est_mu0(c(100, 1000, 5000))
-#' # Plot of estimated mean function
-#' model1$Estimated_Mean_Function
-#' # Relative entropy
-#' model1$RelativeEntropy
-#' # Initial values for estimation procedure
-#' model1$InitialAlpha
-#' model1$InitialBeta
-#' # You can select initial value in estimation procedure manually
-#' alpha <- matrix(c(0, 0, 0.5, -2, 2, -4),
-#'                 nrow = 3, ncol = 2, byrow = TRUE)
-#' beta <- matrix(c(2.5, -0.5, -0.3, 1.5, -0.2, -0.5,
-#'                   2.5,  0.1, 0.2), nrow = 3 , ncol = 2+1 , byrow = TRUE)
-#' model2 <- SLCARE(alpha, beta, dat = SLCARE_simdat)
-#' # You can define individual frailty with gamma(p,p).
-#' # Below is an example with manually defined initial value and frailty gamma(3,3)
-#' model3 <- SLCARE(alpha, beta, dat = SLCARE_simdat, gamma = 3)
-#' # You can use bootstrap for bootstrap standard error.
-#' # Bootstrap sample size = 100 (time consuming procedure)
-#' # model4 <- SLCARE(alpha, beta, dat = SLCARE_simdat, boot = 100)
-#' # SLCARE() with "boot" argument will return to two additional contents:
-#' # "alpha_bootse", "beta_bootse" which are Bootsrap standard errors.
-#' # model4$alpha_bootse
-#' # model4$beta_bootse
-
-SLCARE <- function(alpha = NULL, beta = NULL, dat, K = NULL,
-                       gamma = 0, max_epoches = 500, conv_threshold = 0.01, boot = NULL){
-
-  #id_wide, d, Z, censor_wide,
-  #id_long, time_long, censor_long
-  dat_list <- PreprocessData(dat)
-  id_wide <- as.data.frame(dat_list$id_wide)
-  colnames(id_wide) <- c("ID")
-  d <- dat_list$d
+#' @example inst/examples/SLCARE.R
+SLCARE <- function(formula = "x1 + x2", alpha = NULL, beta = NULL, data = data, id_col = "id", start_col = "start", stop_col = "stop", event_col = "event", K = NULL,
+                   gamma = 0, max_epochs = 500, conv_threshold = 0.01, boot = NULL) {
+  if (is.null(K)) stop("Please specify the number of latent classes (K)")
+  Call <- match.call()
+  dat_list <- PreprocessData(data = data, id_col = id_col, start_col = start_col, stop_col = stop_col, event_col = event_col, formula = formula)
+  id_wide <- dat_list$id_wide
+  id_long <- dat_list$id_long
   Z <- as.matrix(dat_list$Z)
-  censor_wide <- dat_list$censor_wide
-
-  id_long <- as.data.frame(dat_list$id_long)
-  colnames(id_long) <- c("ID")
   time_long <- dat_list$time_long
+  censor_wide <- (dat_list$censor_wide)[[1]]
   censor_long <- dat_list$censor_long
+  event_num <- dat_list$event_num
 
-  if( is.numeric(alpha) ){
+  if (is.numeric(alpha)) {
     init_alpha <- alpha
-    init_beta  <- beta
+    init_beta <- beta
   } else {
-    #obtain initial
-    initial <- get_initial(dat, K)
+    # obtain initials
+    initial <- get_initial(data = data, K = K, id_col = id_col, start_col = start_col, stop_col = stop_col, event_col = event_col, formula = formula)
     init_alpha <- as.matrix(initial$ini_alpha)
     init_beta <- as.matrix(initial$ini_beta)
     alpha <- init_alpha
     beta <- init_beta
   }
-
-  K <- nrow(init_beta)
-
+  # K <- nrow(init_beta)
   mu_censor <- sapply(censor_wide, function(x) mu_t(time_long, censor_long, x))
 
-  converged = F
-  epoches = 0
+  converged <- F
+  epochs <- 0
 
-
-
-  while(converged == F){
-    alpha_new <- update_alpha(alpha, beta, d, Z, mu_censor, gamma)
-    beta_new <- update_beta(alpha, beta, d, Z, mu_censor, gamma)
-
-    diff_alpha <- (alpha_new - alpha)/ alpha
-    diff_beta <- (beta_new - beta)/ beta
-
-
+  while (converged == F) {
+    alpha_new <- update_alpha(alpha, beta, event_num, Z, mu_censor, gamma)
+    beta_new <- update_beta(alpha, beta, event_num, Z, mu_censor, gamma)
+    diff_alpha <- (alpha_new - alpha) / alpha
+    diff_beta <- (beta_new - beta) / beta
     diff_alpha2 <- alpha_new - alpha
     diff_beta2 <- beta_new - beta
-
     loss1 <- max(abs(diff_alpha2))
     loss2 <- max(abs(diff_beta2))
-
     loss <- max(loss1, loss2)
-
     alpha <- alpha_new
     beta <- beta_new
 
-
-    if(loss <= conv_threshold){
-      converged = T
+    if (loss <= conv_threshold) {
+      converged <- T
       rownames(alpha) <- paste0("class", c(1:K), sep = "")
       rownames(beta) <- paste0("class", c(1:K), sep = "")
-      output <- list("alpha" = alpha, "beta" = beta, "convergeloss" = loss)
-
-    }else{
-      epoches <- epoches + 1
+      colnames(beta)[1] <- "(intercept)"
+      output <- list("alpha" = alpha, "beta" = beta, "convergeloss" = loss, "call" = Call)
+    } else {
+      epochs <- epochs + 1
     }
 
-    if(epoches >= max_epoches){
-      converged = T
+    if (epochs >= max_epochs) {
+      converged <- T
       rownames(alpha) <- paste0("class", c(1:K), sep = "")
       rownames(beta) <- paste0("class", c(1:K), sep = "")
-      output <- list("alpha" = alpha, "beta" = beta, "convergeloss" = loss)
-
+      colnames(beta)[1] <- "(intercept)"
+      output <- list("alpha" = alpha, "beta" = beta, "convergeloss" = loss, "call" = Call)
     }
   }
 
-
-  ##Bootstrap
-  if( is.numeric(boot) )
-  {
+  ## Bootstrap
+  if (is.numeric(boot)) {
     n_subjects <- nrow(id_wide)
-    #long_format <- cbind(id_long, time_long, censor_long)
     list_alpha_boot <- NULL
     list_beta_boot <- NULL
 
-    for( i in 1:boot )
+    for (i in 1:boot)
     {
       skip_to_next <- FALSE
 
       tryCatch(
         {
-          boot_subject_id <- as.data.frame(sample(dat_list$id_wide, n_subjects, replace=T))
-          colnames(boot_subject_id) <- c("ID")
-          dat_boot_temp <- boot_subject_id |> left_join(dat, by = names(id_long))
+          boot_subject_id <- data.frame(ID = sample((id_wide)[[1]], n_subjects, replace = T))
+          colnames(boot_subject_id) <- id_col
+          dat_boot_temp <- boot_subject_id %>% left_join(data, by = id_col, relationship = "many-to-many")
+          Count_boot <- NULL
+          dat_boot <- dat_boot_temp %>%
+            group_by(.data[[id_col]], .data[[start_col]]) %>%
+            mutate(Count_boot = row_number()) %>%
+            ungroup() %>%
+            mutate(ID_boot = ifelse(Count_boot > 1, paste0(.data[[id_col]], "BOOT", Count_boot), .data[[id_col]])) %>%
+            select(-Count_boot)
 
-          dat_boot <- dat_boot_temp |> group_by(ID, time) |>
-            mutate(Count = row_number()) |>
-            ungroup() |>
-            mutate(ID = ifelse(Count > 1, paste0(ID, "BOOT", Count), ID)) |>
-            select(-Count)
-
-
-          # subject_index <- sample(1:n_subjects,n_subjects,replace=T)
-          # id_wide_boot <- as.data.frame(id_wide[subject_index,])
-          # names(id_wide_boot) <- names(id_wide)
-          # d_boot <- d[subject_index]
-          # Z_boot <- Z[subject_index,]
-          # censor_wide_boot <- censor_wide[subject_index]
-          # long_format_boot <- merge(id_wide_boot, long_format, by = names(id_long), all.x=TRUE)
-
-          ####mu_censor_boot <- sapply(censor_wide_boot, function(x) mu_t(long_format_boot[2], long_format_boot[3], x))
-
-          # output_boot <- SLCARE(output$alpha, output$beta,
-          #                           id_wide_boot, d_boot, Z_boot, censor_wide_boot,
-          #                           long_format_boot[1], long_format_boot[2], long_format_boot[3],
-          #                           gamma, max_epoches = 200, conv_threshold = 0.1, boot = NULL)
-          output_boot <- SLCARE(output$alpha, output$beta, dat_boot,
-                              gamma, max_epoches = 200, conv_threshold = 0.1, boot = NULL)
-
-
+          output_boot <- SLCARE_fit(
+            alpha = output$alpha, beta = output$beta, data = dat_boot,
+            id_col = "ID_boot", start_col = start_col, stop_col = stop_col, event_col = event_col, formula = formula,
+            K = K, gamma = gamma, max_epochs = 200, conv_threshold = 0.1
+          )
           list_alpha_boot <- rbind(list_alpha_boot, as.vector(output_boot$alpha))
           list_beta_boot <- rbind(list_beta_boot, as.vector(output_boot$beta))
-          #list_alpha_boot <- append(list_alpha_boot, list(output_boot$alpha))
-          #list_beta_boot  <- append(list_beta_boot, list(output_boot$beta))
-
         },
-        error = function(e) {skip_to_next <<- TRUE}
+        error = function(e) {
+          skip_to_next <<- TRUE
+        }
       )
-      if(skip_to_next) { next }
+      if (skip_to_next) {
+        next
+      }
     }
 
-
-
-    beta_bootsd <- matrix(apply(list_beta_boot, 2, function(x) sd(x[quantile(x , 0.025) <= x & x <= quantile(x, 0.975)])) , nrow = K)
-    alpha_bootsd <- matrix(apply(list_alpha_boot, 2, function(x) sd(x[quantile(x , 0.025) <= x & x <= quantile(x, 0.975)])) , nrow = K)
+    # remove outlier
+    beta_bootsd <- matrix(apply(list_beta_boot, 2, function(x) sd(x[quantile(x, 0.025) <= x & x <= quantile(x, 0.975)])), nrow = K)
+    alpha_bootsd <- matrix(apply(list_alpha_boot, 2, function(x) sd(x[quantile(x, 0.025) <= x & x <= quantile(x, 0.975)])), nrow = K)
     colnames(alpha_bootsd) <- colnames(output$alpha)
     rownames(alpha_bootsd) <- rownames(output$alpha)
-    colnames(beta_bootsd)  <- colnames(output$beta)
-    rownames(beta_bootsd)  <- rownames(output$beta)
-
-    output <- list("alpha" = output$alpha, "beta" = output$beta, "convergeloss" = output$convergeloss, "alpha_bootse" = alpha_bootsd, "beta_bootse" = beta_bootsd)
-
+    colnames(beta_bootsd) <- colnames(output$beta)
+    rownames(beta_bootsd) <- rownames(output$beta)
+    # calculate p-value
+    beta_pvalue <- 2 * pnorm(abs(output$beta / beta_bootsd), lower.tail = F)
+    alpha_pvalue <- 2 * pnorm(abs(output$alpha / alpha_bootsd), lower.tail = F)
+    output <- list("alpha" = output$alpha, "beta" = output$beta, "convergeloss" = output$convergeloss, "alpha_bootse" = alpha_bootsd, "beta_bootse" = beta_bootsd, "call" = Call, "alpha_pvalue" = alpha_pvalue, "beta_pvalue" = beta_pvalue)
   }
 
-  #posterior predict
-  predict <- SLCA_predict(output$alpha, output$beta, d, Z, mu_censor, gamma)
-
-  PosteriorPrediction <- cbind(id_wide, predict$PosteriorPredict)
-  colnames(PosteriorPrediction) <- c("ID", "PosteriorPrediction")
+  # posterior predict
+  predict <- predict_posterior(output$alpha, output$beta, event_num, Z, mu_censor, gamma)
+  PosteriorPrediction <- data.frame(ID = (id_wide)[[1]], PosteriorPrediction = predict$PosteriorPredict)
   EstimatedTau <- cbind(id_wide, predict$tauhat)
-  colnames(EstimatedTau) <- c("ID",paste0("class", c(1:K), sep = ""))
+  colnames(EstimatedTau) <- c("ID", paste0("class", c(1:K), sep = ""))
   output <- append(output, list("PosteriorPrediction" = PosteriorPrediction, "EstimatedTau" = EstimatedTau))
 
-  #model checking
-  modelcheckdat <- as.data.frame(cbind(d, predict$PosteriorPredict))
+  # model checking
+  observed <- NULL
+  predicted <- NULL
+  modelcheckdat <- data.frame(observed = (event_num)[[1]], predicted = predict$PosteriorPredict)
+  modelcheckdat <- modelcheckdat %>% filter(observed != 0)
 
-  colnames(modelcheckdat) <- c("observed", "predicted")
+  modelcheck_gg <- ggplot(modelcheckdat, aes(x = observed, y = predicted))
 
-  modelcheckdat <- modelcheckdat |> dplyr::filter(observed != 0)
+  output <- append(output, list("ModelChecking_gg" = modelcheck_gg))
 
-  modelcheck_gg <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
-    #geom_point() +
-    #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
-    geom_abline(intercept = 0, slope = 1) +
-    theme(aspect.ratio=1) +
-    ggtitle("Model Checking Plot")
-
-  modelcheckplot <- ggplot(modelcheckdat, aes(x = observed, y = predicted)) +
-                          geom_point() +
-                          #geom_jitter(width = max(modelcheckdat$observed)/20, height = max(modelcheckdat$observed)/20, alpha = 0.3, col = 'blue') +
-                          geom_abline(intercept = 0, slope = 1) +
-                          theme(aspect.ratio=1) +
-                          ggtitle("Model Checking Plot") +
-                          expand_limits(x = 0, y = 0)
-                          #coord_fixed(ratio = 1)
-
-  output <- append(output, list("ModelChecking" = modelcheckplot, "ModelChecking_gg" = modelcheck_gg))
-
-  #est_mu0
-  output$est_mu0 <- function(t)
+  # est_mu0
+  output$est_mu0 <- function(t) {
     sapply(t, function(x) mu_t(time_long, censor_long, x))
+  }
 
-  #plot mu_0(t)
-  tseq <- seq(from = min(time_long), to = max(censor_wide), by = (max(censor_wide) - min(time_long))/200 )
+  # plot mu_0(t)
+  mu0t <- NULL
+  tseq <- seq(from = min(time_long), to = max(censor_wide), by = (max(censor_wide) - min(time_long)) / 200)
   mu0_tseq <- sapply(tseq, function(x) mu_t(time_long, censor_long, x))
+  mu0_t_dat <- data.frame(t = tseq, mu0t = mu0_tseq)
 
-  mu0_t_dat <- as.data.frame(cbind(tseq, mu0_tseq))
+  estmu_gg <- ggplot(mu0_t_dat, aes(x = t, y = mu0t))
 
-  colnames(mu0_t_dat) <- c("t", "mu0t")
+  output <- append(output, list("Estimated_mu0t_gg" = estmu_gg))
 
-  estmu_gg <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
-    theme(aspect.ratio = 1) +
-    ggtitle(expression(paste(Plot~of~hat(mu)~(t)))) +
-    xlab("t") +
-    ylab(expression(paste(hat(mu)~(t))))
-
-  estmu_plot <- ggplot(mu0_t_dat, aes(x = t, y = mu0t)) +
-              #geom_smooth(se = FALSE) +
-    geom_line(size = 1) +
-    theme(aspect.ratio = 1) +
-    ggtitle(expression(paste(Plot~of~hat(mu)~(t)))) +
-    xlab("t") +
-    ylab(expression(paste(hat(mu)~(t)))) +
-    expand_limits(x = 0, y = 0)
-
-
-  output <- append(output, list("Estimated_mu0t" = estmu_plot, "Estimated_mu0t_gg" = estmu_gg))
-
-  #estimated mean plot
+  # estimated mean plot
   post_xi <- apply(predict$tauhat, 1, function(x) which.max(x))
-  #post_xi_tau <- cbind(post_xi, predict$tauhat)
+  # post_xi_tau <- cbind(post_xi, predict$tauhat)
   tauexpzbeta <- apply(as.matrix(predict$tauhat) * exp(as.matrix(cbind(1, Z)) %*% t(as.matrix(output$beta))), 1, sum)
   xitauexpzbeta <- as.data.frame(cbind(post_xi, tauexpzbeta))
-
-  class_par <- xitauexpzbeta |> group_by(post_xi)|> mutate(par = mean(tauexpzbeta)) |> select(post_xi, par) |> unique()
-
+  par <- NULL
+  class_par <- xitauexpzbeta %>%
+    group_by(post_xi) %>%
+    mutate(par = mean(tauexpzbeta)) %>%
+    select(post_xi, par) %>%
+    unique()
   estmean_crossingdat <- crossing(class_par, mu0_t_dat)
-  estmean_crossingdat <- estmean_crossingdat |> mutate(mu0_t_dat_par = par * mu0t)
+  mu0_t_dat_par <- NULL
+  estmean_crossingdat <- estmean_crossingdat %>% mutate(mu0_t_dat_par = par * mu0t)
   estmean_crossingdat$class <- as.factor(estmean_crossingdat$post_xi)
 
-  estmean_gg <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class)) +
-    theme(aspect.ratio = 1) +
-    ggtitle("Estimated Mean Function Plot") +
-    xlab("t") +
-    ylab("Estimated Mean Function")
+  estmean_gg <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class))
 
+  output <- append(output, list("Estimated_Mean_Function_gg" = estmean_gg))
 
-  estmean_plot <- ggplot(estmean_crossingdat, aes(x = t, y = mu0_t_dat_par, colour = class)) +
-    #geom_smooth(se = FALSE) +
-    geom_line(size = 1) +
-    theme(aspect.ratio = 1) +
-    ggtitle("Estimated Mean Function Plot") +
-    xlab("t") +
-    ylab("Estimated Mean Function") +
-    expand_limits(x = 0, y = 0)
-
-  output <- append(output, list("Estimated_Mean_Function" = estmean_plot, "Estimated_Mean_Function_gg" = estmean_gg))
-
-
-  entropy <- entropy(output$alpha, output$beta, d, Z, mu_censor, gamma)
+  entropy <- entropy(output$alpha, output$beta, event_num, Z, mu_censor, gamma)
 
   output <- append(output, list("RelativeEntropy" = entropy))
 
   output <- append(output, list("InitialAlpha" = init_alpha, "InitialBeta" = init_beta))
 
+  output <- structure(output, class = "SLCARE")
+
   return(output)
-
-
 }
+
+
+#' @title Is the object from the SLCARE class?
+#' @description \code{TRUE} if the specified object is from the \code{\link{SLCARE}} class, \code{FALSE} otherwise.
+#' @param x An \code{R} object.
+#' @return A logical value.
+#' @noRd
+is.SLCARE <- function(x) {
+  is(x, "SLCARE")
+}
+
+#' @title An S4 class to represent SLCARE object
+#' @noRd
+# setClass("SLCARE", ...)
+NULL

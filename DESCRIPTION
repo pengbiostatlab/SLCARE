@@ -1,28 +1,26 @@
 Package: SLCARE
-Type: Package
-Title: Semiparametric Latent Class Analysis for Recurrent Event
-Version: 0.2.0
-Authors@R: c(person(given = "Qi", family = "Yu",
-	   email = "qi.yu2@emory.edu",
-	   role = c("aut", "cre")),
-	   person(given = "Limin", family = "Peng",
-	   email = "lpeng@emory.edu", role = "aut"))
-Maintainer: Qi Yu <qi.yu2@emory.edu>
-Description: A tool for semiparametric latent class analysis for recurrent event. A list of references for this package: Chiou et al. (2023) <doi: 10.18637/jss.v105.i05>, Zhao et al. (2022) <doi: 10.1111/rssb.12499>.
+Title: Semiparametric Latent Class Analysis of Recurrent Events
+Version: 1.1.0
+Authors@R: 
+    c(person(given = "Qi", family = "Yu", email = "qi.yu2@emory.edu", role = c("aut", "cre")),
+      person(given = "Limin", family = "Peng", email = "lpeng@emory.edu", role = "aut"))
+Description: Efficient R package for latent class analysis of recurrent events, based on the semiparametric multiplicative intensity model by Zhao et al. (2022) <doi:10.1111/rssb.12499>. SLCARE returns estimates for non-functional model parameters along with the associated variance estimates and p-values. Visualization tools are provided to depict the estimated functional model parameters and related functional quantities of interest. SLCARE also delivers a model checking plot to help assess the adequacy of the fitted model.
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
-URL: https://github.com/qyxxx/SLCARE,
-    http://www.metaknight.us/SLCARE/
-BugReports: https://github.com/qyxxx/SLCARE/issues
-Imports:
-    dplyr,
-    tidyr,
-    ggplot2,
-    reReg,
-    nnet
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Suggests: 
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Imports: 
+    dplyr,
+    ggplot2,
+    magrittr,
+    methods,
+    nnet,
+    reda,
+    reReg,
+    rlang,
+    stats,
+    tidyr,
+    utils
