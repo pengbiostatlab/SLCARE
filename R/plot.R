@@ -56,9 +56,11 @@ plotCumBaseIntensity <- function(x) {
     # geom_smooth(se = FALSE) +
     geom_line(linewidth = 1) +
     theme(aspect.ratio = 1) +
-    ggtitle(expression(paste(Plot ~ of ~ hat(mu) ~ (t)))) +
+    # ggtitle(expression(paste(Plot ~ of ~ hat(mu) ~ (t)))) +
+    ggtitle("Estimated Cumulative Baseline Intensity Function Plot") +
     xlab("t") +
-    ylab(expression(paste(hat(mu) ~ (t)))) +
+    # ylab(expression(paste(hat(mu) ~ (t)))) +
+    ylab("Estimated Cumulative Baseline Intensity Function") +
     expand_limits(x = 0, y = 0)
 }
 #' Plot Estimated Mean Function
