@@ -4,12 +4,7 @@
 \alias{print.SLCARE}
 \title{Print Results for SLCARE}
 \usage{
-\method{print}{SLCARE}(
-  x,
-  type = c("Est", "SE", "Init", "ConvergeLoss", "ClassProb", "PostPredict", "Entropy",
-    "PValue"),
-  ...
-)
+\method{print}{SLCARE}(x, type = NULL, ...)
 }
 \arguments{
 \item{x}{an object of class \code{SLCARE}.}

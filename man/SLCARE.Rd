@@ -21,32 +21,31 @@ SLCARE(
 )
 }
 \arguments{
-\item{formula}{A string specifying the variables of interest to be involved in the regression, with the format of "x1 + x2".}
+\item{formula}{a string specifying the variables of interest to be involved in the regression, with the format of "x1 + x2".}
 
-\item{alpha}{initial values for alpha for estimation procedure (multinomial logistic regression model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.}
+\item{alpha}{initial estimate for alpha in the estimation procedure (multinomial logistic regression model). This should be NULL (default) or a numeric matrix. 'NULL' represents the initial estimate for alpha resulted from the automated initializer.}
 
-\item{beta}{initial value for beta for estimation procedure (recurrent event model). This should be NULL or a numeric matrix. 'NULL' refers to obtain initial value with the proposed method.}
+\item{beta}{initial estimate for beta in the estimation procedure (recurrent event model). This should be NULL (default) or a numeric matrix. 'NULL' represents the initial estimate for beta resulted from the automated initializer.}
 
-\item{data}{a long-format Data-frame.}
+\item{data}{a long-format Dataframe, with the format similar to Simdata (a package build-in dataset).}
 
-\item{id_col}{the unique identifier per subject.}
+\item{id_col}{parameter that indicates the column name of the subject identifier in data.}
 
-\item{start_col}{start time of the interval for the recurrent event.}
+\item{start_col}{parameter that indicates the column name of the start time of the recurrent event interval in data.}
 
-\item{stop_col}{ending time of the interval for the recurrent event.}
+\item{stop_col}{parameter that indicates the column name of the ending time of the recurrent event interval in data.}
 
-\item{event_col}{The status indicator; 1 if a recurrent event is observed.}
+\item{event_col}{parameter that indicates the column name of the recurrent event indicator in data. 1 if a recurrent event is observed.}
 
-\item{K}{number of latent classes.}
+\item{K}{pre-determined number of latent classes.}
 
-\item{gamma}{individual frailty. 0 represents the frailty equals 1 and k represents the frailty follows gamma(k,k).}
+\item{gamma}{parameter that indicates the distribution of frailty W. The default is 0 which indicates the model holds without the subject-specific frailty (i.e., W = 1), gamma = k indicates that W follows the Gamma(k, k) distribution.}
 
-\item{max_epochs}{maximum iteration epochs for the estimation procedure.}
+\item{max_epochs}{maximum number of iterations for the estimation algorithm.}
 
-\item{conv_threshold}{converge threshold for the estimation procedure.}
+\item{conv_threshold}{convergence threshold for the estimation algorithm.}
 
-\item{boot}{a numeric value specifies the number of bootstraps for variance estimation.
-When \code{boot = NULL}, variance estimation will not be performed.}
+\item{boot}{number of bootstrap replicates used to obtain the standard error estimation. The default is NULL which indicates bootstrap is not conducted.}
 }
 \description{
 Fit semiparametric latent class model for recurrent event.
