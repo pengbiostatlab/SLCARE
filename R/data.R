@@ -54,7 +54,6 @@ NULL
 #' an open-label, randomised, phase 3 trial.  \emph{The Lancet Oncology}
 #' \bold{12}, 1032-44.
 #' @keywords datasets
-#' @name colorectal
 #' @rdname colorectal
 NULL
 
