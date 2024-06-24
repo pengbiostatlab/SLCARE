@@ -5,9 +5,13 @@
 #' @param ... other arguments.
 #' @seealso [SLCARE()]
 #' @export
-print.SLCARE <- function(x, type = c("Est", "SE", "Init", "ConvergeLoss", "ClassProb", "PostPredict", "Entropy", "PValue"), ...) {
+print.SLCARE <- function(x, type = NULL, ...) {
   if (!is.SLCARE(x)) stop("Response must be a `SLCARE` object.")
-  type <- match.arg(type)
+  if (is.null(type)) {
+    return(summary(x))
+  } else {
+    type <- match.arg(type, choices = c("Est", "SE", "Init", "ConvergeLoss", "ClassProb", "PostPredict", "Entropy", "PValue"))
+  }
   print <- switch(type,
     "Est" = GetEst(x),
     "SE" = GetSE(x),
