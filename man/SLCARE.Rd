@@ -87,7 +87,7 @@ An example of model selection can be found in the paper "SLCARE: An R package fo
 data(SimData)
 
 # fit SLCARE with K = 2, formula = "x1 + x2" and default settings for other arguments
-model1 <- SLCARE(data = SimData, K = 2, formula = "x1 + x2")
+model1 <- SLCARE(formula = "x1 + x2", data = SimData, K = 2)
 
 # summary results
 summary(model1, digits = 3)
