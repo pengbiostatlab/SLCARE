@@ -61,7 +61,11 @@ plotCumBaseIntensity <- function(x) {
     xlab("t") +
     # ylab(expression(paste(hat(mu) ~ (t)))) +
     ylab("Estimated Cumulative Baseline Intensity Function") +
-    expand_limits(x = 0, y = 0)
+    expand_limits(x = 0, y = 0) +
+    theme(
+      plot.title = element_text(size=8),       # Adjust the main title size
+      axis.title.y = element_text(size=8)     # Adjust x-axis title size
+    )
 }
 #' Plot Estimated Mean Function
 #' @param x an object of class \code{SLCARE}.
