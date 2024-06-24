@@ -16,6 +16,7 @@
 #' @importFrom dplyr summarise
 #' @importFrom dplyr ungroup
 #' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 expand_limits
 #' @importFrom ggplot2 geom_abline
 #' @importFrom ggplot2 geom_line
