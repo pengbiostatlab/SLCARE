@@ -5,7 +5,7 @@
 
 # SLCARE 1.2.0
 
-* I would like to thank the editorial team form R journal for useful comments to improve the package.
+* I would like to thank the editorial team from R journal for useful comments to improve the package.
 
 * Tentatively integrate colorectal dataset to our package, which was originally publicly available in frailtypack package (Rondeau et al. 2012).
 
