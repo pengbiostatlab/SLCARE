@@ -4,10 +4,10 @@
 #' @param alpha initial estimate for alpha in the estimation procedure (multinomial logistic regression model). This should be NULL (default) or a numeric matrix. 'NULL' represents the initial estimate for alpha resulted from the automated initializer.
 #' @param beta initial estimate for beta in the estimation procedure (recurrent event model). This should be NULL (default) or a numeric matrix. 'NULL' represents the initial estimate for beta resulted from the automated initializer.
 #' @param data a long-format Dataframe, with the format similar to Simdata (a package build-in dataset).
-#' @param id_col parameter that indicates the column name of the subject identifier in data.
-#' @param start_col parameter that indicates the column name of the start time of the recurrent event interval in data.
-#' @param stop_col parameter that indicates the column name of the ending time of the recurrent event interval in data.
-#' @param event_col parameter that indicates the column name of the recurrent event indicator in data. 1 if a recurrent event is observed.
+#' @param id_col name of the column that includes subject identifiers.
+#' @param start_col name of the column that records the start time of each at-risk time interval.
+#' @param stop_col name of the column that records the start time of each at-risk time interval.
+#' @param event_col name of the column that indicates whether a recurrent event is observed or not (i.e, 1=observed; 0=otherwise).
 #' @param K pre-determined number of latent classes.
 #' @param gamma parameter that indicates the distribution of frailty W. The default is 0 which indicates the model holds without the subject-specific frailty (i.e., W = 1), gamma = k indicates that W follows the Gamma(k, k) distribution.
 #' @param max_epochs maximum number of iterations for the estimation algorithm.

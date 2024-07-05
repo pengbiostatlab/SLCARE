@@ -29,13 +29,13 @@ SLCARE(
 
 \item{data}{a long-format Dataframe, with the format similar to Simdata (a package build-in dataset).}
 
-\item{id_col}{parameter that indicates the column name of the subject identifier in data.}
+\item{id_col}{name of the column that includes subject identifiers.}
 
-\item{start_col}{parameter that indicates the column name of the start time of the recurrent event interval in data.}
+\item{start_col}{name of the column that records the start time of each at-risk time interval.}
 
-\item{stop_col}{parameter that indicates the column name of the ending time of the recurrent event interval in data.}
+\item{stop_col}{name of the column that records the start time of each at-risk time interval.}
 
-\item{event_col}{parameter that indicates the column name of the recurrent event indicator in data. 1 if a recurrent event is observed.}
+\item{event_col}{name of the column that indicates whether a recurrent event is observed or not (i.e, 1=observed; 0=otherwise).}
 
 \item{K}{pre-determined number of latent classes.}
 
