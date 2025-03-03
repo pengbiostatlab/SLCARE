@@ -22,11 +22,11 @@ update_alpha <- function(alpha, beta, event_num, Z, mu_censor, gamma = 0) {
   tau_temp <- D * xi # n*k
   tau <- t(apply(tau_temp, 1, function(x) x / sum(x)))
   weight <- as.vector(tau)
-  formule <- as.formula(paste(col_name[1], paste(col_name[-1], collapse = " + "), sep = " ~ "))
+  formule <- as.formula(paste(paste(col_name[1], paste(col_name[-1], collapse = " + "), sep = " ~ "), '-1'))
   invisible(capture.output(new_alpha_regression <- multinom(formula = formule, data = dat, weights = weight)))
   new_alpha <- summary(new_alpha_regression)$coefficients
   new_alpha <- rbind(0, new_alpha)
-  new_alpha <- as.matrix(as.data.frame(new_alpha[, -1]))
+  new_alpha <- as.matrix(as.data.frame(new_alpha))
   colnames(new_alpha) <- c(colnames(Z))
 
   return(new_alpha)
