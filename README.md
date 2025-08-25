@@ -9,7 +9,7 @@
 Recurrent event data frequently arise in biomedical follow-up studies.
 The concept of latent classes enables researchers to characterize
 complex population heterogeneity in a plausible and parsimonious way.
-SLCARE implements a robust and flexible algorithm to carry out Zhao et
+SLCARE (Yu and Peng, 2024) implements a robust and flexible algorithm to carry out Zhao et
 al.(2022)’s latent class analysis method for recurrent event data, where
 semiparametric multiplicative intensity modeling is adopted. SLCARE
 returns estimates for non-functional model parameters along with the
@@ -17,6 +17,12 @@ associated variance estimates. Visualization tools are provided to
 depict the estimated functional model parameters and related functional
 quantities of interest. SLCARE also delivers a model checking plot to
 help assess the adequacy of the fitted model.
+
+## References:
+
+Zhao, W., Peng, L. and Hanfelt, J., 2022. Semiparametric latent class analysis of recurrent event data. Journal of the Royal Statistical Society Series B: Statistical Methodology, 84(4), pp.1175-1197.
+
+Yu, Q. and Peng, L., 2024. SLCARE: An R Package for Semiparametric Latent Class Analysis of Recurrent Events. R JOURNAL, 16(3), pp.134-149.
 
 ## Installation
 
